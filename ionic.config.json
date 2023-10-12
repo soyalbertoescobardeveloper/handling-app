@@ -1,0 +1,8 @@
+{
+  "name": "Handling App",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "c455172c"
+}
