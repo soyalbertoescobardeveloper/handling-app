@@ -1,0 +1,20 @@
+<ion-item *ngIf="message" [routerLink]="'/operation/' + message.id">
+  <div slot="start" [class]="!message.read ? 'dot dot-unread' : 'dot'"></div>
+  <ion-label class="ion-text-wrap">
+    <ion-card-title>ID Operación: {{message.id}}</ion-card-title>
+    <h2>
+      Route: {{message.airportDeparture}} - {{message.airportArrival}} 
+      <span class="date">
+        <ion-note>{{ message.tail}}</ion-note>
+        <ion-icon aria-hidden="true" name="chevron-forward" size="small" *ngIf="isIos()"></ion-icon>
+      </span>
+    </h2>
+    <h3> Flight Type: {{message.flightType}} </h3>
+    <p>
+      ETD UTC:  {{message.etd}}
+    </p>
+    <p>
+      ETA UTC:  {{message.eta}}
+    </p>
+  </ion-label>
+</ion-item>

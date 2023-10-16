@@ -1,0 +1,133 @@
+<ion-header [translucent]="true">
+	<ion-toolbar>
+		<ion-buttons slot="start">
+			<ion-back-button [text]="getBackButtonText()"
+				defaultHref="/"></ion-back-button>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+	<ion-card>
+		<ion-card-header>
+			<ion-card-title>Crew</ion-card-title>
+			<ion-card-subtitle>Documents</ion-card-subtitle>
+		</ion-card-header>
+		<ion-card-content>
+			<ion-list>
+				<!-- PASSPORT DOCUMENT -->
+				<ion-item>
+					<ng-container *ngIf="crew?.crew_pass_img; else noImage">
+						<ion-thumbnail slot="start">
+							<a [href]="'https://handling-dev.sae.com.mx/' + crew?.crew_pass_img"
+								download>
+								<ion-img [src]="'https://handling-dev.sae.com.mx/' + crew?.crew_pass_img"
+									alt="SAE"></ion-img>
+							</a>
+						</ion-thumbnail>
+					</ng-container>
+
+					<ng-template #noImage>
+						<ion-thumbnail slot="start">
+							<ion-img src="https://www.apricotmaps.com/resources/Pictures/docs/no-image.png"
+								alt="Imagen predeterminada"></ion-img>
+						</ion-thumbnail>
+					</ng-template>
+					<ion-label>Passport</ion-label>
+					<h4>
+						Date Expiration:
+						<ion-note>
+							{{ crew?.crew_pass_exp ? (crew?.crew_pass_exp | date:'dd/MM/yyyy, HH:mm') : 'Date undefined' }}
+						</ion-note>
+					</h4>
+					<ion-button (click)="openCommentModal()"
+						class="custom-button">
+						Comments
+					</ion-button> 
+
+				</ion-item>
+				<!-- VISA DOCUMENT -->
+				<ion-item>
+					<ng-container *ngIf="crew?.crew_visa_img; else noImage">
+						<ion-thumbnail slot="start">
+							<a [href]="'https://handling-dev.sae.com.mx/' + crew?.crew_visa_img"
+								download>
+								<ion-img [src]="'https://handling-dev.sae.com.mx/' + crew?.crew_visa_img"
+									alt="SAE"></ion-img>
+							</a>
+						</ion-thumbnail>
+					</ng-container>
+
+					<ng-template #noImage>
+						<ion-thumbnail slot="start">
+							<ion-img src="https://www.apricotmaps.com/resources/Pictures/docs/no-image.png"
+								alt="Imagen predeterminada"></ion-img>
+						</ion-thumbnail>
+					</ng-template>
+					<ion-label>Visa</ion-label>
+					<h4>
+						Date Expiration:
+						<ion-note>
+							{{ crew?.crew_visa_exp ? (crew?.crew_visa_exp | date:'dd/MM/yyyy, HH:mm') : 'Date undefined' }}
+						</ion-note>
+					</h4>
+				</ion-item>
+
+				<!-- LICENSE DOCUMENT -->
+				<ion-item>
+					<ng-container *ngIf="crew?.crew_lice_img; else noImage">
+						<ion-thumbnail slot="start">
+							<a [href]="'https://handling-dev.sae.com.mx/' + crew?.crew_lice_img"
+								download>
+								<ion-img [src]="'https://handling-dev.sae.com.mx/' + crew?.crew_lice_img"
+									alt="SAE"></ion-img>
+							</a>
+						</ion-thumbnail>
+					</ng-container>
+
+					<ng-template #noImage>
+						<ion-thumbnail slot="start">
+							<ion-img src="https://www.apricotmaps.com/resources/Pictures/docs/no-image.png"
+								alt="Imagen predeterminada"></ion-img>
+						</ion-thumbnail>
+					</ng-template>
+					<ion-label>License</ion-label>
+					<h4>
+						Date Expiration:
+						<ion-note>
+							{{ crew?.crew_lice_exp ? (crew?.crew_lice_exp | date:'dd/MM/yyyy, HH:mm') : 'Date undefined' }}
+						</ion-note>
+					</h4>
+				</ion-item>
+
+				<!-- MEDICAL DOCUMENT -->
+				<ion-item>
+					<ng-container *ngIf="crew?.crew_medi_img; else noImage">
+						<ion-thumbnail slot="start">
+							<a [href]="'https://handling-dev.sae.com.mx/' + crew?.crew_medi_img"
+								download>
+								<ion-img [src]="'https://handling-dev.sae.com.mx/' + crew?.crew_medi_img"
+									alt="SAE"></ion-img>
+							</a>
+						</ion-thumbnail>
+					</ng-container>
+
+					<ng-template #noImage>
+						<ion-thumbnail slot="start">
+							<ion-img src="https://www.apricotmaps.com/resources/Pictures/docs/no-image.png"
+								alt="Imagen predeterminada"></ion-img>
+						</ion-thumbnail>
+					</ng-template>
+					<ion-label>Medical Exam</ion-label>
+					<h4>
+						Date Expiration:
+						<ion-note>
+							{{ crew?.crew_medi_exp ? (crew?.crew_medi_exp | date:'dd/MM/yyyy, HH:mm') : 'Date undefined' }}
+						</ion-note>
+					</h4>
+				</ion-item>
+
+			</ion-list>
+		</ion-card-content>
+	</ion-card>
+</ion-content>

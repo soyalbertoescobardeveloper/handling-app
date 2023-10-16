@@ -1,0 +1,127 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [text]="getBackButtonText()" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" >
+  <ion-item >
+    <ion-icon aria-hidden="true" name="airplane-outline" color="primary"></ion-icon>
+    <ion-label class="ion-text-wrap label-operation-title" *ngIf="message">
+      <h2>
+        ID Operation: 
+        <span class="date">
+          <ion-note> {{ message.operation_id }} </ion-note>
+        </span>
+      </h2>
+      <h3>Route: <ion-note>{{ message.airport[0].selectDeparture }} - {{ message.airport[0].selectArrival }} </ion-note></h3>
+      <h3>Aircraft Type: <ion-note>{{ message.aircraft[0].oaci}}</ion-note></h3>
+      <h3>ETD UTC: <ion-note>{{ message.airport[0].etd_utc | date:'dd/MM/yyyy, HH:mm'}}
+      </ion-note></h3>
+      <h3>ETA UTC: <ion-note>{{ message.airport[0].eta_utc | date:'dd/MM/yyyy, HH:mm'}}</ion-note></h3>
+
+    </ion-label>
+  </ion-item>
+  
+  <ion-card>
+    <ion-card-header>
+      <ion-item>
+      <ion-icon aria-hidden="true" name="layers-outline" color="primary" size="small"></ion-icon>
+      <ion-card-title class="generic-title">Services</ion-card-title>
+    </ion-item>
+      <ion-card-subtitle>SAE Handling</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let service of message?.services">
+          <ion-label>{{ service.title }}</ion-label> 
+          <ion-note> {{ service.quantity }} </ion-note>
+        </ion-item>
+          
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+
+  <ion-card>
+    <ion-card-header>
+      <ion-item>
+        <ion-icon aria-hidden="true" name="people-outline" color="primary" size="small"></ion-icon>
+        <ion-card-title class="generic-title">Pax</ion-card-title>
+      </ion-item>     
+ <ion-card-subtitle>Documents</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let pax of message?.passengers" [routerLink]="['/datail-pax', pax.pax_id]">
+          <ion-label >{{ pax.pax_parental }} {{ pax.pax_maternal }} {{ pax.pax_name}}</ion-label> 
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+       <ion-item>
+        <ion-icon aria-hidden="true" name="people-outline" color="primary" size="small"></ion-icon>
+        <ion-card-title class="generic-title">Crew</ion-card-title>
+      </ion-item> 
+      <ion-card-subtitle>Documents</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let crew of message?.crews" [routerLink]="['/datail-crew', crew.crew_id]">
+          <ion-label>{{ crew.crew_parental }} {{ crew.crew_maternal }} {{ crew.crew_name }}</ion-label> 
+        </ion-item>
+
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-item>
+        <ion-icon aria-hidden="true" name="folder-open-outline" color="primary" size="small"></ion-icon>
+        <ion-card-title class="generic-title">Operation</ion-card-title>
+      </ion-item> 
+      <ion-card-subtitle>Documents</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <!-- <div slot="start" [class]="!message[0].read ? 'dot dot-unread' : 'dot'"></div> -->
+          <ion-label>Manifest</ion-label> 
+        </ion-item>
+  
+        <ion-item>
+          <!-- <div slot="start" [class]="!message[0].read ? 'dot dot-unread' : 'dot'"></div> -->
+          <ion-label>Airworthiness Card</ion-label>
+        </ion-item>
+  
+        <ion-item>
+          <!-- <div slot="start" [class]="!message[0].read ? 'dot dot-unread' : 'dot'"></div> -->
+          <ion-label>Mexican Insurance	</ion-label>
+        </ion-item>
+  
+        <ion-item lines="none">
+          <!-- <div slot="start" [class]="!message[0].read ? 'dot dot-unread' : 'dot'"></div> -->
+          <ion-label>Certificate Tail	</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="generic-title">Invoice</ion-card-title>
+      <ion-card-subtitle>Upload</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button expand="block">Add New Invoice Upload</ion-button>
+    </ion-card-content>
+  </ion-card>
+  
+  
+</ion-content>

@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { FolderPage } from './folder.page';
+import { MessageModule } from './message/message.module';
 
 describe('FolderPage', () => {
   let component: FolderPage;
@@ -11,7 +12,7 @@ describe('FolderPage', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [FolderPage],
-      imports: [IonicModule.forRoot(), RouterModule.forRoot([])]
+      imports: [IonicModule.forRoot(), MessageModule, RouterModule.forRoot([])]
     }).compileComponents();
 
     fixture = TestBed.createComponent(FolderPage);

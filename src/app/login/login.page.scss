@@ -1,0 +1,35 @@
+.login-background {
+    background: url('../../assets/icon/logo-sae.png') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    color: white;
+  }
+  .background-image {
+        width: 70%;
+        height: 10%;
+        display: block;
+        margin: auto;
+        margin-top: 2%;
+   
+  }
+  .login-form {
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  ion-item {
+    --ion-label-color: white;
+    --ion-input-color: white;
+  }
+  
+  ion-button {
+    --background: #007bff;
+  }
+  

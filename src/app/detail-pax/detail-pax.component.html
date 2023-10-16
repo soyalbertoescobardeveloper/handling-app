@@ -1,0 +1,77 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [text]="getBackButtonText()" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content   [fullscreen]="true">
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Pax </ion-card-title>
+    <ion-card-subtitle>Documents</ion-card-subtitle>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-list>
+      <ion-item>
+        <ng-container *ngIf="pax?.pax_pass_img; else noImage">
+          <!-- Mostrar la imagen si pax_pass_img está definido -->
+          <ion-thumbnail slot="start">
+            <a [href]="'https://handling-dev.sae.com.mx/' + pax?.pax_pass_img" download>
+              <ion-img
+                [src]="'https://handling-dev.sae.com.mx/' + pax?.pax_pass_img"
+                alt="SAE"
+              ></ion-img>
+            </a>
+          </ion-thumbnail>
+        </ng-container>
+        
+        <ng-template #noImage>
+          <!-- Mostrar esta imagen si pax_pass_img es undefined o null -->
+          <ion-thumbnail slot="start">
+            <ion-img
+              src="https://www.apricotmaps.com/resources/Pictures/docs/no-image.png"
+              alt="Imagen predeterminada"
+            ></ion-img>
+          </ion-thumbnail>
+        </ng-template>
+        <ion-label>Passport </ion-label>
+       
+        <h4>Date Expiration: <ion-note>{{ pax?.pax_pass_exp | date:'dd/MM/yyyy, HH:mm' }}</ion-note></h4>
+      </ion-item>
+
+      <ion-item>
+        <ng-container *ngIf="pax?.pax_visa_img; else noImage">
+          <!-- Mostrar la imagen si pax_pass_img está definido -->
+          <ion-thumbnail slot="start">
+            <a [href]="'https://handling-dev.sae.com.mx/' + pax?.pax_visa_img" download>
+              <ion-img
+                [src]="'https://handling-dev.sae.com.mx/' + pax?.pax_visa_img"
+                alt="SAE"
+              ></ion-img>
+            </a>
+          </ion-thumbnail>
+        </ng-container>
+        
+        <ng-template #noImage>
+          <!-- Mostrar esta imagen si pax_pass_img es undefined o null -->
+          <ion-thumbnail slot="start">
+            <ion-img
+              src="https://www.apricotmaps.com/resources/Pictures/docs/no-image.png"
+              alt="Imagen predeterminada"
+            ></ion-img>
+          </ion-thumbnail>
+        </ng-template>
+        <ion-label>Visa</ion-label>
+        <h4>Date Expiration: 
+          <ion-note>
+          {{ pax?.pax_visa_exp ? (pax?.pax_visa_exp | date:'dd/MM/yyyy, HH:mm') : 'Date defined' }}
+        </ion-note>
+      </h4>
+      </ion-item>
+
+    </ion-list>
+  </ion-card-content>
+</ion-card>
+</ion-content>

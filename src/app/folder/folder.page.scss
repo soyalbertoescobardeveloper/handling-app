@@ -1,28 +1,83 @@
-ion-menu-button {
-  color: var(--ion-color-primary);
+ion-item {
+  --padding-start: 0;
+  --inner-padding-end: 0;
 }
 
-#container {
-  text-align: center;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+ion-label {
+  margin-top: 12px;
+  margin-bottom: 12px;
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-  color: #8c8c8c;
+ion-item h2 {
+  font-weight: 600;
   margin: 0;
+  color: #2C3E52;
 }
 
-#container a {
-  text-decoration: none;
+ion-item ion-card-title{
+  color: #085588;
+}
+
+ion-item p {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 95%;
+}
+
+ion-item .date {
+  float: right;
+  align-items: center;
+  display: flex;
+}
+
+ion-item ion-icon {
+  color: #c9c9ca;
+}
+
+ion-item ion-note {
+  font-size: 15px;
+  margin-right: 8px;
+  font-weight: normal;
+}
+
+ion-item ion-note.md {
+  margin-right: 14px;
+}
+
+.dot {
+  display: block;
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  align-self: start;
+  margin: 16px 10px 16px 16px;
+}
+
+.dot-unread {
+  background: var(--ion-color-primary);
+}
+
+ion-footer ion-title {
+  font-size: 11px;
+  font-weight: normal;
+}
+
+ion-loading.custom-spinner {
+  .loading-wrapper {
+  background: url('../../assets/icon/saev1.gif') center center no-repeat !important;
+  background-size: contain !important;
+  animation: spin 2s linear infinite !important;
+  width: 40px !important;
+  height: 40px !important;
+} 
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
