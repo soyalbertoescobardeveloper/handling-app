@@ -1,32 +1,70 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Storage } from '@ionic/storage-angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private isAuthenticated = false;
+  isAuthenticated!: boolean;
 
-  login(email: string, password: string): Promise<boolean> {
-    // Aquí puedes agregar la lógica de autenticación, como enviar datos al servidor.
-    // Si la autenticación es exitosa, establece isAuthenticated en true y devuelve una promesa resuelta.
-    // De lo contrario, devuelve una promesa rechazada.
-    return new Promise((resolve, reject) => {
-      // Simulación de autenticación exitosa (reemplaza con tu propia lógica de autenticación)
-      if (email === 'user@example.com' && password === 'password') {
-        this.isAuthenticated = true;
-        resolve(true);
-      } else {
-        this.isAuthenticated = false;
-        reject('Credenciales incorrectas');
-      }
+  constructor(private http: HttpClient, private storage: Storage) {
+    this.initStorage().then(() => {
+      this.checkSession();
     });
   }
-   logout(): void {
-    // Realiza cualquier limpieza necesaria al cerrar la sesión, como eliminar tokens.
-    this.isAuthenticated = false;
+
+  async initStorage() {
+    await this.storage.create();
   }
 
-  isAuthenticatedUser(): boolean {
+  async checkSession() {
+    const token = await this.storage.get('access_token');
+    console.log(token);
+    if (token) {
+      this.isAuthenticated = true;
+      console.log(this.isAuthenticated);
+    } else {
+      this.isAuthenticated = false;
+    }
+  }
+
+  async login(email: string, password: string): Promise<boolean> {
+    const loginData = { email, password };
+
+    try {
+      const response: any = await this.http.post('https://handling-dev.sae.com.mx/api/auth/login', loginData).toPromise();
+
+      if (response && response.access_token) {
+        this.isAuthenticated = true;
+
+        await this.storage.set('access_token', response.access_token);
+        await this.storage.set('user', response.user);
+
+        return true;
+      } else {
+        this.isAuthenticated = false;
+        return false;
+      }
+    } catch (error) {
+      console.error('Error de inicio de sesión:', error);
+      this.isAuthenticated = false;
+      throw error;
+    }
+  }
+
+  logout(): void {
+    this.isAuthenticated = false;
+    this.storage.remove('access_token'); // Eliminar el token al cerrar sesión.
+    this.storage.remove('user'); // Eliminar los datos del usuario al cerrar sesión.
+  }
+
+  async isAuthenticatedUser(): Promise<boolean> {
+    await this.initStorage();
+    await this.checkSession();
+    console.log(this.isAuthenticated);
     return this.isAuthenticated;
   }
 }
+
+

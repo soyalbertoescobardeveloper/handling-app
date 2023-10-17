@@ -1,21 +1,50 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Inicia sesión | Handling SAE</ion-title>
+    <ion-title>Welcome Agent | Handling SAE</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="login-background">
-  <img src="../../assets/icon/logotipo-completo.png" class="background-image">
+  <img src="../../assets/icon/logotipo-completo.png" class="background-image" />
   <div class="login-form">
-    <ion-item>
-      <ion-label position="floating">E-mail</ion-label>
-      <ion-input type="text"></ion-input>
+    <ion-item style="margin-top: 80%;">
+      <!-- <ion-input type="email" fill="solid" labelPlacement="floating" helperText="Enter a valid email" errorText="Invalid email" [(ngModel)]="email" email></ion-input> -->
+      <ion-input
+        type="email"
+        fill="" 
+        label="Email"
+        labelPlacement="floating"
+        helperText="Enter a valid email"
+        errorText="Invalid email"
+        [(ngModel)]="email"
+        email
+      ></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">Password</ion-label>
-      <ion-input type="password"></ion-input>
+      <ion-input
+      type="password"
+      fill="" 
+      label="Password"
+      labelPlacement="floating"
+      helperText="Enter a valid password"
+      errorText="Invalid Pass"
+      [(ngModel)]="password"
+      password
+    ></ion-input>
     </ion-item>
-    <ion-button expand="full" (click)="login()" color="primary">Ingresar</ion-button>
+    <ion-button expand="full" (click)="login()" color="primary" style="margin-top: 7%;" [disabled]="!email || !password"
+      >Ingresar</ion-button
+    >
   </div>
 </ion-content>
 
+<ion-modal id="example-modal" #modal trigger="open-custom-dialog">
+  <ng-template>
+    <div class="wrapper">
+      <ion-text color="primary">
+        <h1 style="text-align: center">Aviso</h1>
+        <p style="margin-left: 2%">Email o Contraseña incorrectos</p>
+      </ion-text>
+    </div>
+  </ng-template>
+</ion-modal>
