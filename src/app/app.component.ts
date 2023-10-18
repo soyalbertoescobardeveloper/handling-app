@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AuthService } from './services/auth.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -11,5 +13,11 @@ export class AppComponent {
 
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  constructor() {}
+  constructor(private authService: AuthService,private router: Router) {}
+
+  logout(){
+    console.log("entre al logout");
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
 }

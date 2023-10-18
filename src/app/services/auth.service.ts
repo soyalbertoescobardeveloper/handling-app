@@ -20,10 +20,8 @@ export class AuthService {
 
   async checkSession() {
     const token = await this.storage.get('access_token');
-    console.log(token);
     if (token) {
       this.isAuthenticated = true;
-      console.log(this.isAuthenticated);
     } else {
       this.isAuthenticated = false;
     }
@@ -55,14 +53,13 @@ export class AuthService {
 
   logout(): void {
     this.isAuthenticated = false;
-    this.storage.remove('access_token'); // Eliminar el token al cerrar sesión.
-    this.storage.remove('user'); // Eliminar los datos del usuario al cerrar sesión.
+    this.storage.remove('access_token'); 
+    this.storage.remove('user'); 
   }
 
   async isAuthenticatedUser(): Promise<boolean> {
     await this.initStorage();
     await this.checkSession();
-    console.log(this.isAuthenticated);
     return this.isAuthenticated;
   }
 }

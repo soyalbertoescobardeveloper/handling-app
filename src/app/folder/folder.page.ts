@@ -4,6 +4,8 @@ import { RefresherCustomEvent } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { LoadingController } from '@ionic/angular';
 import { IonSpinner } from '@ionic/angular';
+import { environment } from '../../environments/environment';
+import { Storage } from '@ionic/storage';
 
 
 @Component({
@@ -12,10 +14,11 @@ import { IonSpinner } from '@ionic/angular';
   styleUrls: ['./folder.page.scss'],
 })
 export class FolderPage implements OnInit {
+  private apiUrl = environment.apiUrl;
   loading!: HTMLIonLoadingElement;
   public folder!: string;
   private activatedRoute = inject(ActivatedRoute);
-  constructor(private http: HttpClient,private loadingController: LoadingController) {
+  constructor(private http: HttpClient,private loadingController: LoadingController, private storage: Storage) {
     
   }
   messages: any[] = [];   
@@ -26,8 +29,8 @@ export class FolderPage implements OnInit {
   }
 
   async ngOnInit() {
+    console.log("entre en onInit folder");
     this.folder = this.activatedRoute.snapshot.paramMap.get('id') as string;
-
     this.loading = await this.loadingController.create({
       cssClass: 'custom-spinner',
       spinner: null, 
@@ -36,9 +39,9 @@ export class FolderPage implements OnInit {
      
     });
     await this.loading.present();
-
-
-    this.http.get('https://handling-dev.sae.com.mx/api/agent/2').subscribe(
+    const user = await this.storage.get('user');
+    if (user && user.id) {
+    this.http.get(`${this.apiUrl}api/agent/${user.id}`).subscribe(
       (response: any) => {
         this.loading.dismiss();
         if (Array.isArray(response)) {
@@ -52,5 +55,8 @@ export class FolderPage implements OnInit {
         console.error('Error al realizar la solicitud HTTP', error);
       }
     );
-  }
+   } else {
+    console.log("entre en else de ngOnufrneerfg")
+   }
+}
 }
