@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/cor
 import { ActivatedRoute } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { SharedServicesService } from '../services/shared-services.service';
+import { environment } from 'src/environments/environment';
 
 interface MessageData {
   passengers?: PassengerData[];
@@ -27,6 +28,7 @@ interface PassengerData{
 export class DetailPaxComponent  implements OnInit {
   message: MessageData | undefined;
   pax: PassengerData | undefined;
+  appUrl = environment.apiUrl;
 
   private activatedRoute = inject(ActivatedRoute);
   private platform = inject(Platform);

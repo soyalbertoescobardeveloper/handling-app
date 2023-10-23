@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { ViewOperationComponent } from './view-operation.component';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 
 const routes: Routes = [{
@@ -13,7 +14,7 @@ const routes: Routes = [{
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule, RouterModule.forChild(routes),  HttpClientModule
+   FormsModule, CommonModule, RouterModule.forChild(routes),  HttpClientModule
   ],
   exports: [RouterModule]
 })

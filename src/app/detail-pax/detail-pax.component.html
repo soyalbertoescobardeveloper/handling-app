@@ -18,9 +18,9 @@
         <ng-container *ngIf="pax?.pax_pass_img; else noImage">
           <!-- Mostrar la imagen si pax_pass_img está definido -->
           <ion-thumbnail slot="start">
-            <a [href]="'https://handling-dev.sae.com.mx/' + pax?.pax_pass_img" download>
+            <a [href]="appUrl + pax?.pax_pass_img" download>
               <ion-img
-                [src]="'https://handling-dev.sae.com.mx/' + pax?.pax_pass_img"
+                [src]="appUrl + pax?.pax_pass_img"
                 alt="SAE"
               ></ion-img>
             </a>
@@ -36,18 +36,19 @@
             ></ion-img>
           </ion-thumbnail>
         </ng-template>
-        <ion-label>Passport </ion-label>
-       
-        <h4>Date Expiration: <ion-note>{{ pax?.pax_pass_exp | date:'dd/MM/yyyy, HH:mm' }}</ion-note></h4>
+        <div class="ion-text-wrap">
+          <p class="title-pax">Passport</p>
+          <h4>Date Expiration: <ion-note>{{ pax?.pax_pass_exp | date:'dd/MM/yyyy, HH:mm' }}</ion-note></h4>
+        </div>
       </ion-item>
 
       <ion-item>
         <ng-container *ngIf="pax?.pax_visa_img; else noImage">
           <!-- Mostrar la imagen si pax_pass_img está definido -->
           <ion-thumbnail slot="start">
-            <a [href]="'https://handling-dev.sae.com.mx/' + pax?.pax_visa_img" download>
+            <a [href]="appUrl + pax?.pax_visa_img" download>
               <ion-img
-                [src]="'https://handling-dev.sae.com.mx/' + pax?.pax_visa_img"
+                [src]="appUrl + pax?.pax_visa_img"
                 alt="SAE"
               ></ion-img>
             </a>
@@ -63,12 +64,14 @@
             ></ion-img>
           </ion-thumbnail>
         </ng-template>
-        <ion-label>Visa</ion-label>
+        <div class="ion-text-wrap">
+        <p class="title-pax">Visa</p>
         <h4>Date Expiration: 
           <ion-note>
           {{ pax?.pax_visa_exp ? (pax?.pax_visa_exp | date:'dd/MM/yyyy, HH:mm') : 'Date defined' }}
         </ion-note>
       </h4>
+    </div> 
       </ion-item>
 
     </ion-list>

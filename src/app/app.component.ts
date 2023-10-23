@@ -16,7 +16,6 @@ export class AppComponent {
   constructor(private authService: AuthService,private router: Router) {}
 
   logout(){
-    console.log("entre al logout");
     this.authService.logout();
     this.router.navigate(['/login']);
   }

@@ -1,11 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RefresherCustomEvent } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { LoadingController } from '@ionic/angular';
 import { IonSpinner } from '@ionic/angular';
 import { environment } from '../../environments/environment';
 import { Storage } from '@ionic/storage';
+import { AlertController } from '@ionic/angular';
+import { AuthService } from '../services/auth.service';
 
 
 @Component({
@@ -18,7 +20,10 @@ export class FolderPage implements OnInit {
   loading!: HTMLIonLoadingElement;
   public folder!: string;
   private activatedRoute = inject(ActivatedRoute);
-  constructor(private http: HttpClient,private loadingController: LoadingController, private storage: Storage) {
+  constructor(private http: HttpClient,private loadingController: LoadingController, private storage: Storage,
+    private alertController: AlertController,
+    private authService: AuthService,
+    private router: Router) {
     
   }
   messages: any[] = [];   
@@ -48,6 +53,8 @@ export class FolderPage implements OnInit {
           this.messages = response;
         } else {
           console.error('La respuesta no es un array válido:', response);
+          this.showInvalidResponseAlert();  // Mostrar la alerta
+          this.logout();
         }
       },
       (error) => {
@@ -58,5 +65,18 @@ export class FolderPage implements OnInit {
    } else {
     console.log("entre en else de ngOnufrneerfg")
    }
+}
+async showInvalidResponseAlert() {
+  const alert = await this.alertController.create({
+      header: 'Error',
+      message: 'Este usuario no es un Agente.',
+      buttons: ['OK']
+  });
+  await alert.present();
+}
+
+logout() {
+  this.authService.logout();
+  this.router.navigate(['/login']);
 }
 }

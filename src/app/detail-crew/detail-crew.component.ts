@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ModalController, Platform } from '@ionic/angular';
 import { SharedServicesService } from '../services/shared-services.service';
 import { ModalCommentComponent } from '../modal-comment/modal-comment.component';
+import { environment } from '../../environments/environment';
 
 export interface MessageData {
   crews?: CrewData[];
@@ -36,6 +37,7 @@ export class DetailCrewComponent  implements OnInit {
   private platform = inject(Platform);
   message: MessageData | undefined;
   crew: CrewData | undefined;
+  appUrl = environment.apiUrl;
 
   constructor(private route: ActivatedRoute,
     private sharedDataService: SharedServicesService,
@@ -58,7 +60,6 @@ export class DetailCrewComponent  implements OnInit {
     return isIos ? 'Detail Operation' : '';
   }
   async openCommentModal() {
-    console.log("entre")
     const modal = await this.modalController.create({
      component: ModalCommentComponent
      });
