@@ -143,6 +143,627 @@
       <ion-item>
         <ion-icon
           aria-hidden="true"
+          name="airplane-outline"
+          color="primary"
+          size="small"
+        ></ion-icon>
+        <ion-card-title class="generic-title">Aircraft</ion-card-title>
+      </ion-item>
+      <ion-card-subtitle>Documents</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <!-- Airworthiness CARD  -->
+        <ion-item>
+          <ng-container
+            *ngIf="message!.aircraft[0].airworthiness_card; else noImage"
+          >
+            <ion-thumbnail slot="start">
+              <a
+                [href]="appUrl + message!.aircraft[0].airworthiness_card"
+                download
+              >
+                <ion-img
+                  *ngIf="
+                    !message!.aircraft[0].airworthiness_card?.endsWith('.pdf')
+                  "
+                  [src]="appUrl + message!.aircraft[0].airworthiness_card"
+                  alt="SAE"
+                ></ion-img>
+                <ion-icon
+                  *ngIf="
+                    message!.aircraft[0].airworthiness_card?.endsWith('.pdf')
+                  "
+                  name="cloud-download-outline"
+                  class="large-icon"
+                ></ion-icon>
+              </a>
+            </ion-thumbnail>
+          </ng-container>
+
+          <ng-template #noImage>
+            <ion-thumbnail slot="start">
+              <ion-img
+                src="https://www.apricotmaps.com/resources/Pictures/docs/no-image.png"
+                alt="Imagen predeterminada"
+              ></ion-img>
+            </ion-thumbnail>
+          </ng-template>
+
+          <ion-grid>
+            <ion-row>
+              <ion-col size="7">
+                <ion-label> Airworthiness Card Image </ion-label>
+              </ion-col>
+              <ion-col size="5">
+                <ion-button id="open-airworthiness_card_image" expand="block"
+                  >Verify</ion-button
+                >
+              </ion-col>
+              <ion-content class="ion-padding">
+                <ion-modal
+                  trigger="open-airworthiness_card_image"
+                  [initialBreakpoint]="1"
+                  [breakpoints]="[0, 1]"
+                >
+                  <ng-template>
+                    <ion-list>
+                      <ion-item>
+                        <ion-toggle
+                          aria-label="Success toggle"
+                          color="success"
+                          [checked]="true"
+                          [checked]="
+                            message!.aircraft[0].airworthiness_card_status === 1
+                          "
+                          (ionChange)="
+                            checkboxChanged($event, 'airworthiness_card_status')
+                          "
+                          >Verify Airworthiness card<br /><ion-note
+                            class="ion-text-wrap"
+                            >Make sure to check the document before checking
+                            in</ion-note
+                          ></ion-toggle
+                        >
+                      </ion-item>
+                      <ion-item>
+                        <ion-label position="floating">Comments</ion-label>
+                        <ion-textarea
+                          [(ngModel)]="
+                            message!.aircraft[0].airworthiness_card_comments
+                          "
+                        ></ion-textarea>
+                      </ion-item>
+                      <ion-row>
+                        <ion-col size="12">
+                          <ion-item>
+                            <ion-button
+                              class="large-btn"
+                              (click)="enviarDatos('airworthiness_card')"
+                              expand="full"
+                              >Verify</ion-button
+                            >
+                          </ion-item>
+                        </ion-col>
+                      </ion-row>
+                    </ion-list>
+                  </ng-template>
+                </ion-modal>
+              </ion-content>
+            </ion-row>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12">
+                  <ion-accordion-group>
+                    <ion-accordion value="first" size="large">
+                      <ion-item slot="header" color="light" size="large">
+                        <ion-label>{{
+                          getStatusLabel(
+                            message!.aircraft[0].airworthiness_card_status
+                          )
+                        }}</ion-label>
+                      </ion-item>
+                      <div class="ion-padding" slot="content">
+                        {{ message!.aircraft[0].airworthiness_card_comments }}
+                      </div>
+                    </ion-accordion>
+                  </ion-accordion-group>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-grid>
+        </ion-item>
+
+        <!-- MEXICAN INSURANCE -->
+        <ion-item>
+          <ng-container
+            *ngIf="message!.aircraft[0].mexican_insurance; else noImage"
+          >
+            <ion-thumbnail slot="start">
+              <a
+                [href]="appUrl + message!.aircraft[0].mexican_insurance"
+                download
+              >
+                <ion-img
+                  *ngIf="
+                    !message!.aircraft[0].mexican_insurance?.endsWith('.pdf')
+                  "
+                  [src]="appUrl + message!.aircraft[0].mexican_insurance"
+                  alt="SAE"
+                ></ion-img>
+                <ion-icon
+                  *ngIf="
+                    message!.aircraft[0].mexican_insurance?.endsWith('.pdf')
+                  "
+                  name="cloud-download-outline"
+                  class="large-icon"
+                ></ion-icon>
+              </a>
+            </ion-thumbnail>
+          </ng-container>
+
+          <ng-template #noImage>
+            <ion-thumbnail slot="start">
+              <ion-img
+                src="https://www.apricotmaps.com/resources/Pictures/docs/no-image.png"
+                alt="Imagen predeterminada"
+              ></ion-img>
+            </ion-thumbnail>
+          </ng-template>
+
+          <ion-grid>
+            <ion-row>
+              <ion-col size="7">
+                <ion-label> Mexican insurance </ion-label>
+              </ion-col>
+              <ion-col size="5">
+                <ion-button
+                  id="open-airworthiness_mexican_insurance"
+                  expand="block"
+                  >Verify</ion-button
+                >
+              </ion-col>
+              <ion-content class="ion-padding">
+                <ion-modal
+                  trigger="open-airworthiness_mexican_insurance"
+                  [initialBreakpoint]="1"
+                  [breakpoints]="[0, 1]"
+                >
+                  <ng-template>
+                    <ion-list>
+                      <ion-item>
+                        <ion-toggle
+                          aria-label="Success toggle"
+                          color="success"
+                          [checked]="true"
+                          [checked]="
+                            message!.aircraft[0].mexican_insurance_status === 1
+                          "
+                          (ionChange)="
+                            checkboxChanged($event, 'mexican_insurance_status')
+                          "
+                          >Verify Mexican insurance<br /><ion-note
+                            class="ion-text-wrap"
+                            >Make sure to check the document before checking
+                            in</ion-note
+                          ></ion-toggle
+                        >
+                      </ion-item>
+                      <ion-item>
+                        <ion-label position="floating">Comments</ion-label>
+                        <ion-textarea
+                          [(ngModel)]="
+                            message!.aircraft[0].mexican_insurance_comments
+                          "
+                        ></ion-textarea>
+                      </ion-item>
+                      <ion-row>
+                        <ion-col size="12">
+                          <ion-item>
+                            <ion-button
+                              class="large-btn"
+                              (click)="enviarDatos('mexican_insurance')"
+                              expand="full"
+                              >Verify</ion-button
+                            >
+                          </ion-item>
+                        </ion-col>
+                      </ion-row>
+                    </ion-list>
+                  </ng-template>
+                </ion-modal>
+              </ion-content>
+            </ion-row>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12">
+                  <ion-accordion-group>
+                    <ion-accordion value="first" size="large">
+                      <ion-item slot="header" color="light" size="large">
+                        <ion-label>{{
+                          getStatusLabel(
+                            message!.aircraft[0].mexican_insurance_status
+                          )
+                        }}</ion-label>
+                      </ion-item>
+                      <div class="ion-padding" slot="content">
+                        {{ message!.aircraft[0].mexican_insurance_comments }}
+                      </div>
+                    </ion-accordion>
+                  </ion-accordion-group>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-grid>
+        </ion-item>
+        <!-- CERTIFICATE TAIL -->
+        <ion-item>
+          <ng-container
+            *ngIf="message!.aircraft[0].certificate_tail; else noImage"
+          >
+            <ion-thumbnail slot="start">
+              <a
+                [href]="appUrl + message!.aircraft[0].certificate_tail"
+                download
+              >
+                <ion-img
+                  *ngIf="
+                    !message!.aircraft[0].certificate_tail?.endsWith('.pdf')
+                  "
+                  [src]="appUrl + message!.aircraft[0].certificate_tail"
+                  alt="SAE"
+                ></ion-img>
+                <ion-icon
+                  *ngIf="
+                    message!.aircraft[0].certificate_tail?.endsWith('.pdf')
+                  "
+                  name="cloud-download-outline"
+                  class="large-icon"
+                ></ion-icon>
+              </a>
+            </ion-thumbnail>
+          </ng-container>
+
+          <ng-template #noImage>
+            <ion-thumbnail slot="start">
+              <ion-img
+                src="https://www.apricotmaps.com/resources/Pictures/docs/no-image.png"
+                alt="Imagen predeterminada"
+              ></ion-img>
+            </ion-thumbnail>
+          </ng-template>
+
+          <ion-grid>
+            <ion-row>
+              <ion-col size="7">
+                <ion-label> Certificate tail </ion-label>
+              </ion-col>
+              <ion-col size="5">
+                <ion-button
+                  id="open-airworthiness_certificate_tail"
+                  expand="block"
+                  >Verify</ion-button
+                >
+              </ion-col>
+              <ion-content class="ion-padding">
+                <ion-modal
+                  trigger="open-airworthiness_certificate_tail"
+                  [initialBreakpoint]="1"
+                  [breakpoints]="[0, 1]"
+                >
+                  <ng-template>
+                    <ion-list>
+                      <ion-item>
+                        <ion-toggle
+                          aria-label="Success toggle"
+                          color="success"
+                          [checked]="true"
+                          [checked]="
+                            message!.aircraft[0].certificate_tail_status === 1
+                          "
+                          (ionChange)="
+                            checkboxChanged($event, 'certificate_tail_status')
+                          "
+                          >Verify Certificate tail<br /><ion-note
+                            class="ion-text-wrap"
+                            >Make sure to check the document before checking
+                            in</ion-note
+                          ></ion-toggle
+                        >
+                      </ion-item>
+                      <ion-item>
+                        <ion-label position="floating">Comments</ion-label>
+                        <ion-textarea
+                          [(ngModel)]="
+                            message!.aircraft[0].certificate_tail_comments
+                          "
+                        ></ion-textarea>
+                      </ion-item>
+                      <ion-row>
+                        <ion-col size="12">
+                          <ion-item>
+                            <ion-button
+                              class="large-btn"
+                              (click)="enviarDatos('certificate_tail')"
+                              expand="full"
+                              >Verify</ion-button
+                            >
+                          </ion-item>
+                        </ion-col>
+                      </ion-row>
+                    </ion-list>
+                  </ng-template>
+                </ion-modal>
+              </ion-content>
+            </ion-row>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12">
+                  <ion-accordion-group>
+                    <ion-accordion value="first" size="large">
+                      <ion-item slot="header" color="light" size="large">
+                        <ion-label>{{
+                          getStatusLabel(
+                            message!.aircraft[0].certificate_tail_status
+                          )
+                        }}</ion-label>
+                      </ion-item>
+                      <div class="ion-padding" slot="content">
+                        {{ message!.aircraft[0].certificate_tail_comments }}
+                      </div>
+                    </ion-accordion>
+                  </ion-accordion-group>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-grid>
+        </ion-item>
+        <!-- WORLDWIDE INSURANCE -->
+        <ion-item>
+          <ng-container
+            *ngIf="message!.aircraft[0].worldwide_insurance; else noImage"
+          >
+            <ion-thumbnail slot="start">
+              <a
+                [href]="appUrl + message!.aircraft[0].worldwide_insurance"
+                download
+              >
+                <ion-img
+                  *ngIf="
+                    !message!.aircraft[0].worldwide_insurance?.endsWith('.pdf')
+                  "
+                  [src]="appUrl + message!.aircraft[0].worldwide_insurance"
+                  alt="SAE"
+                ></ion-img>
+                <ion-icon
+                  *ngIf="
+                    message!.aircraft[0].worldwide_insurance?.endsWith('.pdf')
+                  "
+                  name="cloud-download-outline"
+                  class="large-icon"
+                ></ion-icon>
+              </a>
+            </ion-thumbnail>
+          </ng-container>
+
+          <ng-template #noImage>
+            <ion-thumbnail slot="start">
+              <ion-img
+                src="https://www.apricotmaps.com/resources/Pictures/docs/no-image.png"
+                alt="Imagen predeterminada"
+              ></ion-img>
+            </ion-thumbnail>
+          </ng-template>
+
+          <ion-grid>
+            <ion-row>
+              <ion-col size="7">
+                <ion-label> Worldwide insurance </ion-label>
+              </ion-col>
+              <ion-col size="5">
+                <ion-button
+                  id="open-airworthiness_worldwide_insurance"
+                  expand="block"
+                  >Verify</ion-button
+                >
+              </ion-col>
+              <ion-content class="ion-padding">
+                <ion-modal
+                  trigger="open-airworthiness_worldwide_insurance"
+                  [initialBreakpoint]="1"
+                  [breakpoints]="[0, 1]"
+                >
+                  <ng-template>
+                    <ion-list>
+                      <ion-item>
+                        <ion-toggle
+                          aria-label="Success toggle"
+                          color="success"
+                          [checked]="true"
+                          [checked]="
+                            message!.aircraft[0].worldwide_insurance_status ===
+                            1
+                          "
+                          (ionChange)="
+                            checkboxChanged(
+                              $event,
+                              'worldwide_insurance_status'
+                            )
+                          "
+                          >Verify Certificate tail<br /><ion-note
+                            class="ion-text-wrap"
+                            >Make sure to check the document before checking
+                            in</ion-note
+                          ></ion-toggle
+                        >
+                      </ion-item>
+                      <ion-item>
+                        <ion-label position="floating">Comments</ion-label>
+                        <ion-textarea
+                          [(ngModel)]="
+                            message!.aircraft[0].worldwide_insurance_comments
+                          "
+                        ></ion-textarea>
+                      </ion-item>
+                      <ion-row>
+                        <ion-col size="12">
+                          <ion-item>
+                            <ion-button
+                              class="large-btn"
+                              (click)="enviarDatos('worldwide_insurance')"
+                              expand="full"
+                              >Verify</ion-button
+                            >
+                          </ion-item>
+                        </ion-col>
+                      </ion-row>
+                    </ion-list>
+                  </ng-template>
+                </ion-modal>
+              </ion-content>
+            </ion-row>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12">
+                  <ion-accordion-group>
+                    <ion-accordion value="first" size="large">
+                      <ion-item slot="header" color="light" size="large">
+                        <ion-label>{{
+                          getStatusLabel(
+                            message!.aircraft[0].worldwide_insurance_status
+                          )
+                        }}</ion-label>
+                      </ion-item>
+                      <div class="ion-padding" slot="content">
+                        {{ message!.aircraft[0].worldwide_insurance_comments }}
+                      </div>
+                    </ion-accordion>
+                  </ion-accordion-group>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-grid>
+        </ion-item>
+        <!-- ENTRY PERMIT -->
+        <ion-item *ngIf="!message!.piu">
+          <ng-container *ngIf="message!.aircraft[0].entry_permit; else noImage">
+            <ion-thumbnail slot="start">
+              <a [href]="appUrl + message!.aircraft[0].entry_permit" download>
+                <ion-img
+                  *ngIf="!message!.aircraft[0].entry_permit?.endsWith('.pdf')"
+                  [src]="appUrl + message!.aircraft[0].entry_permit"
+                  alt="SAE"
+                ></ion-img>
+                <ion-icon
+                  *ngIf="message!.aircraft[0].entry_permit?.endsWith('.pdf')"
+                  name="cloud-download-outline"
+                  class="large-icon"
+                ></ion-icon>
+              </a>
+            </ion-thumbnail>
+          </ng-container>
+
+          <ng-template #noImage>
+            <ion-thumbnail slot="start">
+              <ion-img
+                src="https://www.apricotmaps.com/resources/Pictures/docs/no-image.png"
+                alt="Imagen predeterminada"
+              ></ion-img>
+            </ion-thumbnail>
+          </ng-template>
+
+          <ion-grid>
+            <ion-row>
+              <ion-col size="7">
+                <ion-label> Entry permit </ion-label>
+              </ion-col>
+              <ion-col size="5">
+                <ion-button id="open-airworthiness_entry_permit" expand="block"
+                  >Verify</ion-button
+                >
+              </ion-col>
+              <ion-content class="ion-padding">
+                <ion-modal
+                  trigger="open-airworthiness_entry_permit"
+                  [initialBreakpoint]="1"
+                  [breakpoints]="[0, 1]"
+                >
+                  <ng-template>
+                    <ion-list>
+                      <ion-item>
+                        <ion-toggle
+                          aria-label="Success toggle"
+                          color="success"
+                          [checked]="true"
+                          [checked]="
+                            message!.aircraft[0].entry_permit_status === 1
+                          "
+                          (ionChange)="
+                            checkboxChanged($event, 'entry_permit_status')
+                          "
+                          >Verify Entry permit<br /><ion-note
+                            class="ion-text-wrap"
+                            >Make sure to check the document before checking
+                            in</ion-note
+                          ></ion-toggle
+                        >
+                      </ion-item>
+                      <ion-item>
+                        <ion-label position="floating">Comments</ion-label>
+                        <ion-textarea
+                          [(ngModel)]="
+                            message!.aircraft[0].entry_permit_comments
+                          "
+                        ></ion-textarea>
+                      </ion-item>
+                      <ion-row>
+                        <ion-col size="12">
+                          <ion-item>
+                            <ion-button
+                              class="large-btn"
+                              (click)="enviarDatos('entry_permit')"
+                              expand="full"
+                              >Verify</ion-button
+                            >
+                          </ion-item>
+                        </ion-col>
+                      </ion-row>
+                    </ion-list>
+                  </ng-template>
+                </ion-modal>
+              </ion-content>
+            </ion-row>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12">
+                  <ion-accordion-group>
+                    <ion-accordion value="first" size="large">
+                      <ion-item slot="header" color="light" size="large">
+                        <ion-label>{{
+                          getStatusLabel(
+                            message!.aircraft[0].entry_permit_status
+                          )
+                        }}</ion-label>
+                      </ion-item>
+                      <div class="ion-padding" slot="content">
+                        {{ message!.aircraft[0].entry_permit_comments }}
+                      </div>
+                    </ion-accordion>
+                  </ion-accordion-group>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-grid>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  <!-- END **** -->
+  <ion-card>
+    <ion-card-header>
+      <ion-item>
+        <ion-icon
+          aria-hidden="true"
           name="folder-open-outline"
           color="primary"
           size="small"
@@ -152,35 +773,14 @@
       <ion-card-subtitle>Documents</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
-      <!-- <ion-list>
-         <ion-item>
-          <div slot="start" [class]="!message[0].read ? 'dot dot-unread' : 'dot'"></div>
-          <ion-label>Manifest</ion-label> 
-        </ion-item>
-  
-        <ion-item>
-          <div slot="start" [class]="!message[0].read ? 'dot dot-unread' : 'dot'"></div>
-          <ion-label>Airworthiness Card</ion-label>
-        </ion-item>
-  
-        <ion-item>
-          <div slot="start" [class]="!message[0].read ? 'dot dot-unread' : 'dot'"></div>
-          <ion-label>Mexican Insurance	</ion-label>
-        </ion-item>
-  
-        <ion-item lines="none">
-          <div slot="start" [class]="!message[0].read ? 'dot dot-unread' : 'dot'"></div>
-          <ion-label>Certificate Tail	</ion-label>
-        </ion-item> 
-      </ion-list>-->
       <ion-list>
         <ion-item>
           <ng-container *ngIf="message?.fuel_release; else noImage">
             <ion-thumbnail slot="start">
-              <a [href]="appUrl  + message?.fuel_release" download>
+              <a [href]="appUrl + message?.fuel_release" download>
                 <ion-img
                   *ngIf="!message?.fuel_release?.endsWith('.pdf')"
-                  [src]="appUrl  + message?.fuel_release"
+                  [src]="appUrl + message?.fuel_release"
                   alt="SAE"
                 ></ion-img>
                 <ion-icon
@@ -217,14 +817,16 @@
                   <ng-template>
                     <ion-list>
                       <ion-item>
-        
                         <ion-toggle
                           aria-label="Success toggle"
                           color="success"
                           [checked]="true"
                           [checked]="message?.fuel_release_status === 1"
-                          (ionChange)="checkboxChanged($event)"
-                          >Verify Fuel Release<br /><ion-note class="ion-text-wrap"
+                          (ionChange)="
+                            checkboxChanged($event, 'fuel_release_status')
+                          "
+                          >Verify Fuel Release<br /><ion-note
+                            class="ion-text-wrap"
                             >Make sure to check the document before checking
                             in</ion-note
                           ></ion-toggle
@@ -274,10 +876,16 @@
           </ion-grid>
         </ion-item>
         <!-- PIU -->
-        <ion-item *ngIf="message?.piu">
+        <ion-item *ngIf="!message!.aircraft[0].entry_permit">
+          <div
+            *ngIf="message?.piu_status === 0"
+            slot="start"
+            [class]="message?.piu_status === 0 ? 'dot dot-unread' : 'dot'"
+          ></div>
+
           <ng-container *ngIf="message?.piu; else noImage">
             <ion-thumbnail slot="start">
-              <a [href]="appUrl  + message?.piu" download>
+              <a [href]="appUrl + message?.piu" download>
                 <ion-img
                   *ngIf="!message?.piu?.endsWith('.pdf')"
                   [src]="appUrl + message?.piu"
@@ -300,13 +908,16 @@
               ></ion-img>
             </ion-thumbnail>
           </ng-template>
+
           <ion-grid>
             <ion-row>
               <ion-col size="7">
-                <ion-label> PIU </ion-label>
+                <ion-label> Entry permit </ion-label>
               </ion-col>
               <ion-col size="5">
-                <ion-button id="open-modal-piu" expand="block">Verify</ion-button>
+                <ion-button id="open-modal-piu" expand="block"
+                  >Verify</ion-button
+                >
               </ion-col>
               <ion-content class="ion-padding">
                 <ion-modal
@@ -322,8 +933,9 @@
                           color="success"
                           [checked]="true"
                           [checked]="message?.piu_status === 1"
-                          (ionChange)="checkboxChanged($event)"
-                          >Verify PIU<br /><ion-note class="ion-text-wrap"
+                          (ionChange)="checkboxChanged($event, 'piu_status')"
+                          >Verify Entry permit PIU<br /><ion-note
+                            class="ion-text-wrap"
                             >Make sure to check the document before checking
                             in</ion-note
                           ></ion-toggle
@@ -373,17 +985,17 @@
           </ion-grid>
         </ion-item>
         <!-- FLIGHT REQUEST CHARTER -->
-        <ion-item *ngIf="message?.piu">
-          <ng-container *ngIf="message?.piu; else noImage">
+        <ion-item *ngIf="message?.charter_permission_mxn">
+          <ng-container *ngIf="message?.charter_permission_mxn; else noImage">
             <ion-thumbnail slot="start">
-              <a [href]="appUrl  + message?.piu" download>
+              <a [href]="appUrl + message?.charter_permission_mxn" download>
                 <ion-img
-                  *ngIf="!message?.piu?.endsWith('.pdf')"
-                  [src]="appUrl + message?.piu"
+                  *ngIf="!message?.charter_permission_mxn?.endsWith('.pdf')"
+                  [src]="appUrl + message?.charter_permission_mxn"
                   alt="SAE"
                 ></ion-img>
                 <ion-icon
-                  *ngIf="message?.piu?.endsWith('.pdf')"
+                  *ngIf="message?.charter_permission_mxn?.endsWith('.pdf')"
                   name="cloud-download-outline"
                   class="large-icon"
                 ></ion-icon>
@@ -399,17 +1011,22 @@
               ></ion-img>
             </ion-thumbnail>
           </ng-template>
+
           <ion-grid>
             <ion-row>
               <ion-col size="7">
-                <ion-label> PIU </ion-label>
+                <ion-label> Charter Permission </ion-label>
               </ion-col>
               <ion-col size="5">
-                <ion-button id="open-modal-piu" expand="block">Verify</ion-button>
+                <ion-button
+                  id="open-modal-charter_permission_mxn"
+                  expand="block"
+                  >Verify</ion-button
+                >
               </ion-col>
               <ion-content class="ion-padding">
                 <ion-modal
-                  trigger="open-modal-piu"
+                  trigger="open-modal-charter_permission_mxn"
                   [initialBreakpoint]="1"
                   [breakpoints]="[0, 1]"
                 >
@@ -420,9 +1037,17 @@
                           aria-label="Success toggle"
                           color="success"
                           [checked]="true"
-                          [checked]="message?.piu_status === 1"
-                          (ionChange)="checkboxChanged($event)"
-                          >Verify PIU<br /><ion-note class="ion-text-wrap"
+                          [checked]="
+                            message?.charter_permission_mxn_status === 1
+                          "
+                          (ionChange)="
+                            checkboxChanged(
+                              $event,
+                              'charter_permission_mxn_status'
+                            )
+                          "
+                          >Verify Charter permission<br /><ion-note
+                            class="ion-text-wrap"
                             >Make sure to check the document before checking
                             in</ion-note
                           ></ion-toggle
@@ -431,7 +1056,7 @@
                       <ion-item>
                         <ion-label position="floating">Comments</ion-label>
                         <ion-textarea
-                          [(ngModel)]="message!.piu_comments"
+                          [(ngModel)]="message!.charter_permission_mxn_comments"
                         ></ion-textarea>
                       </ion-item>
                       <ion-row>
@@ -439,7 +1064,7 @@
                           <ion-item>
                             <ion-button
                               class="large-btn"
-                              (click)="enviarDatos('piu')"
+                              (click)="enviarDatos('charter_permission_mxn')"
                               expand="full"
                               >Verify</ion-button
                             >
@@ -458,11 +1083,116 @@
                     <ion-accordion value="first" size="large">
                       <ion-item slot="header" color="light" size="large">
                         <ion-label>{{
-                          getStatusLabel(message?.piu_status)
+                          getStatusLabel(message?.charter_permission_mxn_status)
                         }}</ion-label>
                       </ion-item>
                       <div class="ion-padding" slot="content">
-                        {{ message?.piu_comments }}
+                        {{ message?.charter_permission_mxn_comments }}
+                      </div>
+                    </ion-accordion>
+                  </ion-accordion-group>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-grid>
+        </ion-item>
+        <!-- DIPLOMATIC CARD -->
+        <ion-item *ngIf="message?.type === 'Diplomatic'">
+          <ng-container *ngIf="message?.diplomatic_card; else noImage">
+            <ion-thumbnail slot="start">
+              <a [href]="appUrl + message?.diplomatic_card" download>
+                <ion-img
+                  *ngIf="!message?.diplomatic_card?.endsWith('.pdf')"
+                  [src]="appUrl + message?.diplomatic_card"
+                  alt="SAE"
+                ></ion-img>
+                <ion-icon
+                  *ngIf="message?.diplomatic_card?.endsWith('.pdf')"
+                  name="cloud-download-outline"
+                  class="large-icon"
+                ></ion-icon>
+              </a>
+            </ion-thumbnail>
+          </ng-container>
+
+          <ng-template #noImage>
+            <ion-thumbnail slot="start">
+              <ion-img
+                src="https://www.apricotmaps.com/resources/Pictures/docs/no-image.png"
+                alt="Imagen predeterminada"
+              ></ion-img>
+            </ion-thumbnail>
+          </ng-template>
+
+          <ion-grid>
+            <ion-row>
+              <ion-col size="7">
+                <ion-label> Diplomatic Card </ion-label>
+              </ion-col>
+              <ion-col size="5">
+                <ion-button id="open-modal-diplomatic_card" expand="block"
+                  >Verify</ion-button
+                >
+              </ion-col>
+              <ion-content class="ion-padding">
+                <ion-modal
+                  trigger="open-modal-diplomatic_card"
+                  [initialBreakpoint]="1"
+                  [breakpoints]="[0, 1]"
+                >
+                  <ng-template>
+                    <ion-list>
+                      <ion-item>
+                        <ion-toggle
+                          aria-label="Success toggle"
+                          color="success"
+                          [checked]="true"
+                          [checked]="message?.diplomatic_card_status === 1"
+                          (ionChange)="
+                            checkboxChanged($event, 'diplomatic_card_status')
+                          "
+                          >Verify Diplomatic card<br /><ion-note
+                            class="ion-text-wrap"
+                            >Make sure to check the document before checking
+                            in</ion-note
+                          ></ion-toggle
+                        >
+                      </ion-item>
+                      <ion-item>
+                        <ion-label position="floating">Comments</ion-label>
+                        <ion-textarea
+                          [(ngModel)]="message!.diplomatic_card_comments"
+                        ></ion-textarea>
+                      </ion-item>
+                      <ion-row>
+                        <ion-col size="12">
+                          <ion-item>
+                            <ion-button
+                              class="large-btn"
+                              (click)="enviarDatos('diplomatic_card')"
+                              expand="full"
+                              >Verify</ion-button
+                            >
+                          </ion-item>
+                        </ion-col>
+                      </ion-row>
+                    </ion-list>
+                  </ng-template>
+                </ion-modal>
+              </ion-content>
+            </ion-row>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12">
+                  <ion-accordion-group>
+                    <ion-accordion value="first" size="large">
+                      <ion-item slot="header" color="light" size="large">
+                        <ion-label>{{
+                          getStatusLabel(message?.diplomatic_card_status)
+                        }}</ion-label>
+                      </ion-item>
+                      <div class="ion-padding" slot="content">
+                        {{ message?.diplomatic_card_comments }}
                       </div>
                     </ion-accordion>
                   </ion-accordion-group>
@@ -474,14 +1204,84 @@
       </ion-list>
     </ion-card-content>
   </ion-card>
-
+  <!-- INVOICE UPLOAD -->
   <ion-card>
     <ion-card-header>
       <ion-card-title class="generic-title">Invoice</ion-card-title>
       <ion-card-subtitle>Upload</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
-      <ion-button expand="block">Add New Invoice Upload</ion-button>
+      <ion-button id="open-modal-invoice" expand="block"
+        >Add New Invoice Upload</ion-button
+      >
     </ion-card-content>
+
+      <ion-card *ngFor="let invoice of invoices">
+        <ion-card-header>
+          <ion-card-title></ion-card-title>
+        </ion-card-header>
+        <ion-card-header>
+          <ion-card-title>{{ invoice.name }}</ion-card-title>
+          <ion-card-subtitle>Amount: {{ invoice.amount }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-img
+                  *ngIf="!invoice?.file?.endsWith('.pdf')"
+                  [src]="appUrl + invoice?.file"
+                  alt="SAE"
+                ></ion-img>
+                <ion-icon
+                  *ngIf="invoice?.file?.endsWith('.pdf')"
+                  name="cloud-download-outline"
+                  class="large-icon"
+                ></ion-icon>
+        </ion-card-content>
+      </ion-card>
+
+    <ion-content class="ion-padding">
+      <ion-modal
+        trigger="open-modal-invoice"
+        [initialBreakpoint]="1"
+        [breakpoints]="[0, 1]"
+      >
+        <ng-template>
+          <ion-list>
+            <ion-row>
+              <ion-col size="6">
+                <ion-item>
+                  <ion-label position="stacked">Name invoice</ion-label>
+                  <ion-input type="text" [(ngModel)]="currentInvoice.name"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col size="6">
+                <ion-item>
+                  <ion-label position="stacked">Amount</ion-label>
+                  <ion-input type="number" [(ngModel)]="currentInvoice.amount"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-item>
+              <ion-label position="stacked">Document Image / Photo</ion-label>
+              <ion-input type="file" (change)="handleFileChange($event)" accept="image/*, .pdf"></ion-input>
+            </ion-item>
+            <ion-row>
+              <ion-col size="12">
+                <ion-item>
+                  <ion-button
+                    class="large-btn"
+                    (click)="sendInvoice('invoice')"
+                    expand="full"
+                    [disabled]="!currentInvoice.name || !currentInvoice.amount || !currentInvoice.file"
+
+                    >Send</ion-button
+                  >
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-list>
+        </ng-template>
+      </ion-modal>
+    </ion-content>
   </ion-card>
+
 </ion-content>

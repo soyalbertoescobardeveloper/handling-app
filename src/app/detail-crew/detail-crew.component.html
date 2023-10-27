@@ -12,7 +12,11 @@
 <ion-content [fullscreen]="true">
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Crew</ion-card-title>
+      <ion-card-title
+        >Crew: {{ crew?.crew_parental }}
+        {{ crew?.crew_maternal ? crew?.crew_maternal : "" }}
+        {{ crew?.crew_name }}</ion-card-title
+      >
       <ion-card-subtitle>Documents</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
@@ -21,16 +25,9 @@
         <ion-item>
           <ng-container *ngIf="crew?.crew_pass_img; else noImage">
             <ion-thumbnail slot="start">
-              <a
-                [href]="
-                  appUrl + crew?.crew_pass_img
-                "
-                download
-              >
+              <a [href]="appUrl + crew?.crew_pass_img" download>
                 <ion-img
-                  [src]="
-                    appUrl + crew?.crew_pass_img
-                  "
+                  [src]="appUrl + crew?.crew_pass_img"
                   alt="SAE"
                 ></ion-img>
               </a>
@@ -45,37 +42,103 @@
               ></ion-img>
             </ion-thumbnail>
           </ng-template>
-          <div class="ion-text-wrap">
-            <p class="title-crew">Passport</p>
-            <h4>
-              Date Expiration:
-              <ion-note>
-                {{
-                  crew?.crew_pass_exp
-                    ? (crew?.crew_pass_exp | date : "dd/MM/yyyy, HH:mm")
-                    : "Date undefined"
-                }}
-              </ion-note>
-            </h4>
-          </div>
-          <ion-button (click)="openCommentModal()" class="custom-button">
-            Comments
-          </ion-button>
+
+          <ion-grid>
+            <ion-row>
+              <ion-col size="9">
+                <div class="ion-text-wrap">
+                  <p class="title-crew">Passport</p>
+                  <h4>
+                    Date Exp:
+                    <ion-note>
+                      {{
+                        crew?.crew_pass_exp
+                          ? (crew?.crew_pass_exp | date : "dd/MM/yyyy, HH:mm")
+                          : "Date undefined"
+                      }}
+                    </ion-note>
+                  </h4>
+                </div>
+              </ion-col>
+              <ion-col size="2">
+                <ion-button id="open-passport" class="custom-button">
+                  <ion-icon name="list-circle-outline"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <!-- MODAL -->
+
+              <ion-content class="ion-padding">
+                <ion-modal
+                  trigger="open-passport"
+                  [initialBreakpoint]="1"
+                  [breakpoints]="[0, 1]"
+                >
+                  <ng-template>
+                    <ion-list>
+                      <ion-item>
+                        <ion-toggle
+                          aria-label="Success toggle"
+                          color="success"
+                          [checked]="true"
+                          [checked]="crew?.passport_image_crew_status === 1"
+                          (ionChange)="checkboxChanged($event, 'crew_pass_sta')"
+                          >Verify Passport<br /><ion-note class="ion-text-wrap"
+                            >Make sure to check the document before checking
+                            in</ion-note
+                          ></ion-toggle
+                        >
+                      </ion-item>
+                      <ion-item>
+                        <ion-label position="floating">Comments</ion-label>
+                        <ion-textarea
+                          [(ngModel)]="crew!.passport_image_crew_comments"
+                        ></ion-textarea>
+                      </ion-item>
+                      <ion-row>
+                        <ion-col size="12">
+                          <ion-item>
+                            <ion-button
+                              class="large-btn"
+                              (click)="sendVerify('crew_pass')"
+                              expand="full"
+                              >Verify</ion-button
+                            >
+                          </ion-item>
+                        </ion-col>
+                      </ion-row>
+                    </ion-list>
+                  </ng-template>
+                </ion-modal>
+              </ion-content>
+            </ion-row>
+
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12">
+                  <ion-accordion-group>
+                    <ion-accordion value="first" size="large">
+                      <ion-item slot="header" color="light" size="large">
+                        <ion-label>{{
+                          getStatusLabel(crew?.passport_image_crew_status)
+                        }}</ion-label>
+                      </ion-item>
+                      <div class="ion-padding" slot="content">
+                        {{ crew?.passport_image_crew_comments }}
+                      </div>
+                    </ion-accordion>
+                  </ion-accordion-group>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-grid>
         </ion-item>
         <!-- VISA DOCUMENT -->
         <ion-item>
           <ng-container *ngIf="crew?.crew_visa_img; else noImage">
             <ion-thumbnail slot="start">
-              <a
-                [href]="
-                  appUrl + crew?.crew_visa_img
-                "
-                download
-              >
+              <a [href]="appUrl + crew?.crew_visa_img" download>
                 <ion-img
-                  [src]="
-                    appUrl + crew?.crew_visa_img
-                  "
+                  [src]="appUrl + crew?.crew_visa_img"
                   alt="SAE"
                 ></ion-img>
               </a>
@@ -90,41 +153,107 @@
               ></ion-img>
             </ion-thumbnail>
           </ng-template>
-          <div class="ion-text-wrap">
-            <p class="title-crew">Visa</p>
-            <h4>
-              Date Expiration:
-              <ion-note>
-                {{
-                  crew?.crew_visa_exp
-                    ? (crew?.crew_visa_exp | date : "dd/MM/yyyy, HH:mm")
-                    : "Date undefined"
-                }}
-              </ion-note>
-            </h4>
-          </div>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="9">
+                <div class="ion-text-wrap">
+                  <p class="title-crew">Visa</p>
+                  <h4>
+                    Date Expiration:
+                    <ion-note>
+                      {{
+                        crew?.crew_visa_exp
+                          ? (crew?.crew_visa_exp | date : "dd/MM/yyyy, HH:mm")
+                          : "Date undefined"
+                      }}
+                    </ion-note>
+                  </h4>
+                </div>
+              </ion-col>
+              <ion-col size="2">
+                <ion-button id="open-visa" class="custom-button">
+                  <ion-icon name="list-circle-outline"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <!-- MODAL -->
+
+              <ion-content class="ion-padding">
+                <ion-modal
+                  trigger="open-visa"
+                  [initialBreakpoint]="1"
+                  [breakpoints]="[0, 1]"
+                >
+                  <ng-template>
+                    <ion-list>
+                      <ion-item>
+                        <ion-toggle
+                          aria-label="Success toggle"
+                          color="success"
+                          [checked]="true"
+                          [checked]="crew?.visa_image_crew_status === 1"
+                          (ionChange)="checkboxChanged($event, 'crew_visa_sta')"
+                          >Verify Visa<br /><ion-note class="ion-text-wrap"
+                            >Make sure to check the document before checking
+                            in</ion-note
+                          ></ion-toggle
+                        >
+                      </ion-item>
+                      <ion-item>
+                        <ion-label position="floating">Comments</ion-label>
+                        <ion-textarea
+                          [(ngModel)]="crew!.visa_image_crew_comments"
+                        ></ion-textarea>
+                      </ion-item>
+                      <ion-row>
+                        <ion-col size="12">
+                          <ion-item>
+                            <ion-button
+                              class="large-btn"
+                              (click)="sendVerify('crew_visa')"
+                              expand="full"
+                              >Verify</ion-button
+                            >
+                          </ion-item>
+                        </ion-col>
+                      </ion-row>
+                    </ion-list>
+                  </ng-template>
+                </ion-modal>
+              </ion-content>
+            </ion-row>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12">
+                  <ion-accordion-group>
+                    <ion-accordion value="first" size="large">
+                      <ion-item slot="header" color="light" size="large">
+                        <ion-label>{{
+                          getStatusLabel(crew?.visa_image_crew_status)
+                        }}</ion-label>
+                      </ion-item>
+                      <div class="ion-padding" slot="content">
+                        {{ crew?.visa_image_crew_comments }}
+                      </div>
+                    </ion-accordion>
+                  </ion-accordion-group>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-grid>
         </ion-item>
 
         <!-- LICENSE DOCUMENT -->
         <ion-item>
           <ng-container *ngIf="crew?.crew_lice_img; else noImage">
             <ion-thumbnail slot="start">
-              <a
-                [href]="
-                  appUrl + crew?.crew_lice_img
-                "
-                download
-              >
+              <a [href]="appUrl + crew?.crew_lice_img" download>
                 <ion-img
-                  [src]="
-                    appUrl + crew?.crew_lice_img
-                  "
+                  [src]="appUrl + crew?.crew_lice_img"
                   alt="SAE"
                 ></ion-img>
               </a>
             </ion-thumbnail>
           </ng-container>
-
           <ng-template #noImage>
             <ion-thumbnail slot="start">
               <ion-img
@@ -133,41 +262,107 @@
               ></ion-img>
             </ion-thumbnail>
           </ng-template>
-          <div class="ion-text-wrap">
-            <p class="title-crew">License</p>
-            <h4>
-              Date Expiration:
-              <ion-note>
-                {{
-                  crew?.crew_lice_exp
-                    ? (crew?.crew_lice_exp | date : "dd/MM/yyyy, HH:mm")
-                    : "Date undefined"
-                }}
-              </ion-note>
-            </h4>
-          </div>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="9">
+                <div class="ion-text-wrap">
+                  <p class="title-crew">License</p>
+                  <h4>
+                    Date Expiration:
+                    <ion-note>
+                      {{
+                        crew?.crew_lice_exp
+                          ? (crew?.crew_lice_exp | date : "dd/MM/yyyy, HH:mm")
+                          : "Date undefined"
+                      }}
+                    </ion-note>
+                  </h4>
+                </div>
+              </ion-col>
+              <ion-col size="2">
+                <ion-button id="open-license" class="custom-button">
+                  <ion-icon name="list-circle-outline"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <!-- MODAL -->
+              <ion-content class="ion-padding">
+                <ion-modal
+                  trigger="open-license"
+                  [initialBreakpoint]="1"
+                  [breakpoints]="[0, 1]"
+                >
+                  <ng-template>
+                    <ion-list>
+                      <ion-item>
+                        <ion-toggle
+                          aria-label="Success toggle"
+                          color="success"
+                          [checked]="true"
+                          [checked]="crew?.license_image_crew_status === 1"
+                          (ionChange)="checkboxChanged($event, 'crew_license_sta')"
+                          >Verify License<br /><ion-note class="ion-text-wrap"
+                            >Make sure to check the document before checking
+                            in</ion-note
+                          ></ion-toggle
+                        >
+                      </ion-item>
+                      <ion-item>
+                        <ion-label position="floating">Comments</ion-label>
+                        <ion-textarea
+                          [(ngModel)]="crew!.license_image_crew_comments"
+                        ></ion-textarea>
+                      </ion-item>
+                      <ion-row>
+                        <ion-col size="12">
+                          <ion-item>
+                            <ion-button
+                              class="large-btn"
+                              (click)="sendVerify('crew_license')"
+                              expand="full"
+                              >Verify</ion-button
+                            >
+                          </ion-item>
+                        </ion-col>
+                      </ion-row>
+                    </ion-list>
+                  </ng-template>
+                </ion-modal>
+              </ion-content>
+            </ion-row>
+
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12">
+                  <ion-accordion-group>
+                    <ion-accordion value="first" size="large">
+                      <ion-item slot="header" color="light" size="large">
+                        <ion-label>{{
+                          getStatusLabel(crew?.license_image_crew_status)
+                        }}</ion-label>
+                      </ion-item>
+                      <div class="ion-padding" slot="content">
+                        {{ crew?.license_image_crew_comments }}
+                      </div>
+                    </ion-accordion>
+                  </ion-accordion-group>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-grid>
         </ion-item>
 
         <!-- MEDICAL DOCUMENT -->
         <ion-item>
           <ng-container *ngIf="crew?.crew_medi_img; else noImage">
             <ion-thumbnail slot="start">
-              <a
-                [href]="
-                  appUrl + crew?.crew_medi_img
-                "
-                download
-              >
+              <a [href]="appUrl + crew?.crew_medi_img" download>
                 <ion-img
-                  [src]="
-                    appUrl + crew?.crew_medi_img
-                  "
+                  [src]="appUrl + crew?.crew_medi_img"
                   alt="SAE"
                 ></ion-img>
               </a>
             </ion-thumbnail>
           </ng-container>
-
           <ng-template #noImage>
             <ion-thumbnail slot="start">
               <ion-img
@@ -176,6 +371,9 @@
               ></ion-img>
             </ion-thumbnail>
           </ng-template>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="9">
           <div class="ion-text-wrap">
             <p class="title-crew">Medical Exam</p>
             <h4>
@@ -189,6 +387,77 @@
               </ion-note>
             </h4>
           </div>
+        </ion-col>
+        <ion-col size="2">
+          <ion-button id="open-medical" class="custom-button">
+            <ion-icon name="list-circle-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+            <!-- MODAL -->
+
+            <ion-content class="ion-padding">
+              <ion-modal
+                trigger="open-medical"
+                [initialBreakpoint]="1"
+                [breakpoints]="[0, 1]"
+              >
+                <ng-template>
+                  <ion-list>
+                    <ion-item>
+                      <ion-toggle
+                        aria-label="Success toggle"
+                        color="success"
+                        [checked]="true"
+                        [checked]="crew?.medical_exam_image_crew_status === 1"
+                        (ionChange)="checkboxChanged($event, 'crew_medical_exam_sta')"
+                        >Verify Medical exam<br /><ion-note class="ion-text-wrap"
+                          >Make sure to check the document before checking
+                          in</ion-note
+                        ></ion-toggle
+                      >
+                    </ion-item>
+                    <ion-item>
+                      <ion-label position="floating">Comments</ion-label>
+                      <ion-textarea
+                        [(ngModel)]="crew!.medical_exam_image_crew_comments"
+                      ></ion-textarea>
+                    </ion-item>
+                    <ion-row>
+                      <ion-col size="12">
+                        <ion-item>
+                          <ion-button
+                            class="large-btn"
+                            (click)="sendVerify('crew_medical_exam')"
+                            expand="full"
+                            >Verify</ion-button
+                          >
+                        </ion-item>
+                      </ion-col>
+                    </ion-row>
+                  </ion-list>
+                </ng-template>
+              </ion-modal>
+            </ion-content>
+          </ion-row>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="12">
+                <ion-accordion-group>
+                  <ion-accordion value="first" size="large">
+                    <ion-item slot="header" color="light" size="large">
+                      <ion-label>{{
+                        getStatusLabel(crew?.medical_exam_image_crew_status)
+                      }}</ion-label>
+                    </ion-item>
+                    <div class="ion-padding" slot="content">
+                      {{ crew?.medical_exam_image_crew_comments }}
+                    </div>
+                  </ion-accordion>
+                </ion-accordion-group>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          </ion-grid>
         </ion-item>
       </ion-list>
     </ion-card-content>

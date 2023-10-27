@@ -24,8 +24,16 @@
     </ion-toolbar>
   </ion-header>
   
-  <ion-list>
+  <ion-list *ngIf="folder === 'inbox'">
     <app-message *ngFor="let message of messages" [message]="message"></app-message>
+  </ion-list>
+
+  <ion-list *ngIf="folder === 'operations'">
+    <app-message *ngFor="let message of messages" [message]="message"></app-message>
+  </ion-list>
+
+  <ion-list *ngIf="folder === 'profile'">
+    <app-profile></app-profile>
   </ion-list>
   
 </ion-content>

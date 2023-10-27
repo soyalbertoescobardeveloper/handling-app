@@ -1,0 +1,30 @@
+
+<ng-container *ngIf="modal">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Upload Invoice</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="dismiss()">Close</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="ion-padding">
+    <ion-item>
+      <ion-label position="stacked">Nombre</ion-label>
+      <ion-input type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Cantidad</ion-label>
+      <ion-input type="number"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Documento</ion-label>
+      <ion-input type="file"></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" (click)="submit()">Upload</ion-button>
+  </ion-content>
+</ng-container>

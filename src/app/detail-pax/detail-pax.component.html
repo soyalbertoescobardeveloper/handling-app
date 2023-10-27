@@ -9,70 +9,234 @@
 <ion-content   [fullscreen]="true">
 <ion-card>
   <ion-card-header>
-    <ion-card-title>Pax </ion-card-title>
+    <ion-card-title>Pax: {{ pax?.pax_parental}}
+      {{ pax?.pax_maternal ? pax?.pax_maternal : "" }}
+      {{ pax?.pax_name }}
+       </ion-card-title>
     <ion-card-subtitle>Documents</ion-card-subtitle>
   </ion-card-header>
   <ion-card-content>
     <ion-list>
-      <ion-item>
-        <ng-container *ngIf="pax?.pax_pass_img; else noImage">
-          <!-- Mostrar la imagen si pax_pass_img está definido -->
-          <ion-thumbnail slot="start">
-            <a [href]="appUrl + pax?.pax_pass_img" download>
-              <ion-img
-                [src]="appUrl + pax?.pax_pass_img"
-                alt="SAE"
-              ></ion-img>
-            </a>
-          </ion-thumbnail>
-        </ng-container>
-        
-        <ng-template #noImage>
-          <!-- Mostrar esta imagen si pax_pass_img es undefined o null -->
-          <ion-thumbnail slot="start">
+    <!-- PASSPORT DOCUMENT -->
+    <ion-item>
+      <ng-container *ngIf="pax?.pax_pass_img; else noImage">
+        <ion-thumbnail slot="start">
+          <a [href]="appUrl + pax?.pax_pass_img" download>
             <ion-img
-              src="https://www.apricotmaps.com/resources/Pictures/docs/no-image.png"
-              alt="Imagen predeterminada"
+              [src]="appUrl + pax?.pax_pass_img"
+              alt="SAE"
             ></ion-img>
-          </ion-thumbnail>
-        </ng-template>
-        <div class="ion-text-wrap">
-          <p class="title-pax">Passport</p>
-          <h4>Date Expiration: <ion-note>{{ pax?.pax_pass_exp | date:'dd/MM/yyyy, HH:mm' }}</ion-note></h4>
-        </div>
-      </ion-item>
+          </a>
+        </ion-thumbnail>
+      </ng-container>
 
-      <ion-item>
-        <ng-container *ngIf="pax?.pax_visa_img; else noImage">
-          <!-- Mostrar la imagen si pax_pass_img está definido -->
-          <ion-thumbnail slot="start">
-            <a [href]="appUrl + pax?.pax_visa_img" download>
-              <ion-img
-                [src]="appUrl + pax?.pax_visa_img"
-                alt="SAE"
-              ></ion-img>
-            </a>
-          </ion-thumbnail>
-        </ng-container>
-        
-        <ng-template #noImage>
-          <!-- Mostrar esta imagen si pax_pass_img es undefined o null -->
-          <ion-thumbnail slot="start">
+      <ng-template #noImage>
+        <ion-thumbnail slot="start">
+          <ion-img
+            src="https://www.apricotmaps.com/resources/Pictures/docs/no-image.png"
+            alt="Imagen predeterminada"
+          ></ion-img>
+        </ion-thumbnail>
+      </ng-template>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col size="9">
+            <div class="ion-text-wrap">
+              <p class="title-pax">Passport</p>
+              <h4>
+                Date Exp:
+                <ion-note>
+                  {{
+                    pax?.pax_pass_exp
+                      ? (pax?.pax_pass_exp | date : "dd/MM/yyyy, HH:mm")
+                      : "Date undefined"
+                  }}
+                </ion-note>
+              </h4>
+            </div>
+          </ion-col>
+          <ion-col size="2">
+            <ion-button id="open-passport" class="custom-button">
+              <ion-icon name="list-circle-outline"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <!-- MODAL -->
+
+          <ion-content class="ion-padding">
+            <ion-modal
+              trigger="open-passport"
+              [initialBreakpoint]="1"
+              [breakpoints]="[0, 1]"
+            >
+              <ng-template>
+                <ion-list>
+                  <ion-item>
+                    <ion-toggle
+                      aria-label="Success toggle"
+                      color="success"
+                      [checked]="true"
+                      [checked]="pax?.passport_image_pax_status === 1"
+                      (ionChange)="checkboxChanged($event, 'pax_pass_sta')"
+                      >Verify Passport<br /><ion-note class="ion-text-wrap"
+                        >Make sure to check the document before checking
+                        in</ion-note
+                      ></ion-toggle
+                    >
+                  </ion-item>
+                  <ion-item>
+                    <ion-label position="floating">Comments</ion-label>
+                    <ion-textarea
+                      [(ngModel)]="pax!.passport_image_pax_comments"
+                    ></ion-textarea>
+                  </ion-item>
+                  <ion-row>
+                    <ion-col size="12">
+                      <ion-item>
+                        <ion-button
+                          class="large-btn"
+                          (click)="sendVerify('pax_pass')"
+                          expand="full"
+                          >Verify</ion-button
+                        >
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                </ion-list>
+              </ng-template>
+            </ion-modal>
+          </ion-content>
+        </ion-row>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12">
+              <ion-accordion-group>
+                <ion-accordion value="first" size="large">
+                  <ion-item slot="header" color="light" size="large">
+                    <ion-label>{{
+                      getStatusLabel(pax?.passport_image_pax_status)
+                    }}</ion-label>
+                  </ion-item>
+                  <div class="ion-padding" slot="content">
+                    {{ pax?.passport_image_pax_comments }}
+                  </div>
+                </ion-accordion>
+              </ion-accordion-group>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-grid>
+    </ion-item>
+    <!-- VISA DOCUMENT -->
+    <ion-item>
+      <ng-container *ngIf="pax?.pax_visa_img; else noImage">
+        <ion-thumbnail slot="start">
+          <a [href]="appUrl + pax?.pax_visa_img" download>
             <ion-img
-              src="https://www.apricotmaps.com/resources/Pictures/docs/no-image.png"
-              alt="Imagen predeterminada"
+              [src]="appUrl + pax?.pax_visa_img"
+              alt="SAE"
             ></ion-img>
-          </ion-thumbnail>
-        </ng-template>
-        <div class="ion-text-wrap">
-        <p class="title-pax">Visa</p>
-        <h4>Date Expiration: 
-          <ion-note>
-          {{ pax?.pax_visa_exp ? (pax?.pax_visa_exp | date:'dd/MM/yyyy, HH:mm') : 'Date defined' }}
-        </ion-note>
-      </h4>
-    </div> 
-      </ion-item>
+          </a>
+        </ion-thumbnail>
+      </ng-container>
+
+      <ng-template #noImage>
+        <ion-thumbnail slot="start">
+          <ion-img
+            src="https://www.apricotmaps.com/resources/Pictures/docs/no-image.png"
+            alt="Imagen predeterminada"
+          ></ion-img>
+        </ion-thumbnail>
+      </ng-template>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="9">
+            <div class="ion-text-wrap">
+              <p class="title-pax">Visa</p>
+              <h4>
+                Date Expiration:
+                <ion-note>
+                  {{
+                    pax?.pax_visa_exp
+                      ? (pax?.pax_visa_exp | date : "dd/MM/yyyy, HH:mm")
+                      : "Date undefined"
+                  }}
+                </ion-note>
+              </h4>
+            </div>
+          </ion-col>
+          <ion-col size="2">
+            <ion-button id="open-visa" class="custom-button">
+              <ion-icon name="list-circle-outline"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <!-- MODAL -->
+
+          <ion-content class="ion-padding">
+            <ion-modal
+              trigger="open-visa"
+              [initialBreakpoint]="1"
+              [breakpoints]="[0, 1]"
+            >
+              <ng-template>
+                <ion-list>
+                  <ion-item>
+                    <ion-toggle
+                      aria-label="Success toggle"
+                      color="success"
+                      [checked]="true"
+                      [checked]="pax?.visa_image_pax_status === 1"
+                      (ionChange)="checkboxChanged($event, 'pax_visa_sta')"
+                      >Verify Visa<br /><ion-note class="ion-text-wrap"
+                        >Make sure to check the document before checking
+                        in</ion-note
+                      ></ion-toggle
+                    >
+                  </ion-item>
+                  <ion-item>
+                    <ion-label position="floating">Comments</ion-label>
+                    <ion-textarea
+                      [(ngModel)]="pax!.visa_image_pax_comments"
+                    ></ion-textarea>
+                  </ion-item>
+                  <ion-row>
+                    <ion-col size="12">
+                      <ion-item>
+                        <ion-button
+                          class="large-btn"
+                          (click)="sendVerify('pax_visa')"
+                          expand="full"
+                          >Verify</ion-button
+                        >
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                </ion-list>
+              </ng-template>
+            </ion-modal>
+          </ion-content>
+        </ion-row>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12">
+              <ion-accordion-group>
+                <ion-accordion value="first" size="large">
+                  <ion-item slot="header" color="light" size="large">
+                    <ion-label>{{
+                      getStatusLabel(pax?.visa_image_pax_status)
+                    }}</ion-label>
+                  </ion-item>
+                  <div class="ion-padding" slot="content">
+                    {{ pax?.visa_image_pax_comments }}
+                  </div>
+                </ion-accordion>
+              </ion-accordion-group>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-grid>
+    </ion-item>
 
     </ion-list>
   </ion-card-content>

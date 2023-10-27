@@ -36,7 +36,7 @@ export class LoginPage implements OnInit {
     this.authService.login(this.email, this.password)
       .then((result) => {
         if (result) {
-          this.router.navigate(['folder/inbox']);
+          this.router.navigate(['folder/operations']);
         }
         else {
           this.openCustomDialogModal();

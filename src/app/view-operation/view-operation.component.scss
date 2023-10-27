@@ -35,3 +35,14 @@
     padding-right: 20px;      
   }
   
+
+  .dot {
+    display: block;
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+  }
+  
+  .dot-unread {
+    background: var(--ion-color-primary);
+  }

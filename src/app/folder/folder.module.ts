@@ -8,6 +8,7 @@ import { FolderPageRoutingModule } from './folder-routing.module';
 
 import { FolderPage } from './folder.page';
 import { MessageModule } from './message/message.module';
+import { ProfileModule } from './profile/profile.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { MessageModule } from './message/message.module';
     FormsModule,
     IonicModule,
     FolderPageRoutingModule,
-    MessageModule
+    MessageModule,
+    ProfileModule,
   ],
   declarations: [FolderPage]
 })

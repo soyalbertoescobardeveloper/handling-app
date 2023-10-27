@@ -34,14 +34,12 @@ export class FolderPage implements OnInit {
   }
 
   async ngOnInit() {
-    console.log("entre en onInit folder");
     this.folder = this.activatedRoute.snapshot.paramMap.get('id') as string;
     this.loading = await this.loadingController.create({
       cssClass: 'custom-spinner',
       spinner: null, 
       translucent: true,
       backdropDismiss: false,
-     
     });
     await this.loading.present();
     const user = await this.storage.get('user');

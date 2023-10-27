@@ -6,13 +6,14 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { ViewOperationRoutingModule } from './view-operation-routing.module';
 import { ViewOperationComponent } from './view-operation.component';
+import { InvoiceUploadModule } from '../invoice-upload/invoice-upload.module';
 
 
 
 @NgModule({
   declarations: [ViewOperationComponent],
   imports: [
-    CommonModule, FormsModule, IonicModule, RouterModule, ViewOperationRoutingModule,
+    CommonModule, FormsModule, IonicModule, RouterModule, ViewOperationRoutingModule, InvoiceUploadModule,
     HttpClientModule
   ]
 })
