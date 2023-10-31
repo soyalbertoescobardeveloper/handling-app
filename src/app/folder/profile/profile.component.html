@@ -1,31 +1,63 @@
 <ion-card>
   <img alt="Silhouette of mountains" src="../../../assets/avion2.jpeg" class="back-image"/>
-  <img class="profile-image" src="../../../assets/profile2.jpeg" alt="User Profile Image">
+  <img *ngIf="!avatar" class="profile-image" src="../../../assets/profile2.jpeg" alt="User Profile Image">
+  <img *ngIf="avatar" class="profile-image" [src]="avatar" alt="User Profile Image">
+  <button ion-button class="change-photo-btn" (click)="changePhoto()">
+    <ion-icon name="camera-outline"></ion-icon>
+  </button>
+  
   <ion-card-header class="centered-header">
-    <ion-card-title>Agente</ion-card-title>
-    <ion-card-subtitle>Servicios Aereos Estrella</ion-card-subtitle>
+    <ion-card-title>{{ airport }}</ion-card-title>
+    <ion-card-subtitle>{{ icao }}</ion-card-subtitle>
   </ion-card-header>
 </ion-card>
 
 <ion-list lines="full" class="ion-padding-top">
   <ion-item>
-    <ion-label position="stacked">Nombre</ion-label>
+    <ion-label position="stacked">Name</ion-label>
     <ion-input type="text" [(ngModel)]="name"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="stacked">Apellido</ion-label>
+    <ion-label position="stacked">License Agent</ion-label>
+    <ion-input type="text" [(ngModel)]="license_agent"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">RFC</ion-label>
     <ion-input type="text" [(ngModel)]="lastname"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="stacked">Correo</ion-label>
+    <ion-label position="stacked">Birthday</ion-label>
+    <ion-input type="date" [(ngModel)]="bir"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">E-mail</ion-label>
     <ion-input type="email" [(ngModel)]="email"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="stacked">Contraseña</ion-label>
-    <ion-input type="password" [(ngModel)]="password"></ion-input>
+    <ion-label position="stacked">Clabe Interbancaria</ion-label>
+    <ion-input type="text" [(ngModel)]="clave"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="stacked">Teléfono</ion-label>
+    <ion-label position="stacked">Phone</ion-label>
     <ion-input type="tel" [(ngModel)]="phone"></ion-input>
   </ion-item>
 </ion-list>
+
+<ion-grid>
+  <ion-row>
+    <ion-col size="12" offset="4">
+      <ion-button class="custom-button" (click)="sendProfile()">
+        <ion-icon name="send-outline"></ion-icon> &nbsp;Update
+      </ion-button >
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+<ion-alert
+  [isOpen]="isAlertOpen"
+  header="Alert Error!"
+  subHeader="The action could not be completed"
+  [message]="messsageAlert"
+  [buttons]="alertButtons"
+  (didDismiss)="setOpen(false)"
+></ion-alert>

@@ -1,20 +1,19 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Welcome Agent | Handling SAE</ion-title>
+    <ion-title>Welcome Agent</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="login-background">
-  <img src="../../assets/icon/logotipo-completo.png" class="background-image" />
+  <img src="../../assets/icon/logotipo-completo.png" class="background-image"/>
+
   <div class="login-form">
     <ion-item style="margin-top: 80%;">
-      <!-- <ion-input type="email" fill="solid" labelPlacement="floating" helperText="Enter a valid email" errorText="Invalid email" [(ngModel)]="email" email></ion-input> -->
       <ion-input
         type="email"
         fill="" 
         label="Email"
         labelPlacement="floating"
-        helperText="Enter a valid email"
         errorText="Invalid email"
         [(ngModel)]="email"
         email
@@ -26,17 +25,21 @@
       fill="" 
       label="Password"
       labelPlacement="floating"
-      helperText="Enter a valid password"
       errorText="Invalid Pass"
       [(ngModel)]="password"
       password
     ></ion-input>
     </ion-item>
     <ion-button expand="full" (click)="login()" color="primary" style="margin-top: 7%;" [disabled]="!email || !password"
-      >Ingresar</ion-button
+      >Iniciar sesión</ion-button
     >
+    <ion-label>¿Olvidaste tu contraseña?</ion-label>
   </div>
 </ion-content>
+
+<ion-button expand="full" (click)="login()" color="primary" style="margin-top: 7%;"
+>Crear cuenta nueva</ion-button
+>
 
 <ion-modal id="example-modal" #modal trigger="open-custom-dialog">
   <ng-template>

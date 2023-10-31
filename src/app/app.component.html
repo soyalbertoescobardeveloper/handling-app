@@ -3,9 +3,8 @@
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>SAE</ion-list-header>
-          <ion-note>Handling App</ion-note>
-
+          <ion-list-header>Servicios Aereos Estrella</ion-list-header>
+          <ion-note>Handling Services <br>{{ username }}</ion-note>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
             <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
               <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>

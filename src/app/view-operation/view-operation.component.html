@@ -1236,6 +1236,12 @@
                   class="large-icon"
                 ></ion-icon>
         </ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="3" offset="4"><ion-button class="btn-delete" (click)="deleteInvoice(invoice.id)" ><ion-icon name="trash-outline"></ion-icon>Eliminar</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </ion-card>
 
     <ion-content class="ion-padding">
@@ -1272,9 +1278,7 @@
                     (click)="sendInvoice('invoice')"
                     expand="full"
                     [disabled]="!currentInvoice.name || !currentInvoice.amount || !currentInvoice.file"
-
-                    >Send</ion-button
-                  >
+                    >Send</ion-button>
                 </ion-item>
               </ion-col>
             </ion-row>

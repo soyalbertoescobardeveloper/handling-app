@@ -224,6 +224,14 @@ export class ViewOperationComponent implements OnInit {
     this.http.get(this.appUrl + 'api/get-operation/' + id).subscribe(
       (response: any) => {
         this.message = response;
+        if (response.invoices && response.invoices.length > 0) {
+          this.invoices = response.invoices.map((invoice: { invoice_name: any; invoice_amount: any; invoice_path: any; invoice_id: any; }) => ({
+            name: invoice.invoice_name,
+            amount: invoice.invoice_amount,
+            file: invoice.invoice_path,
+            id: invoice.invoice_id,
+          }));
+        }
         if (this.message !== undefined) {
           this.sharedDataService.setMessage(this.message);
         }
@@ -445,7 +453,6 @@ export class ViewOperationComponent implements OnInit {
         formData.append('invoice_path', this.currentInvoice.file);
       }
       const id = this.activatedRoute.snapshot.paramMap.get('id') as string;
-
       this.http.post<any>(this.appUrl+ 'api/invoice/'+ id, formData).subscribe(response => {
         if (response && response.documents && response.documents.length > 0) {
           const newInvoice = {
@@ -453,10 +460,8 @@ export class ViewOperationComponent implements OnInit {
             amount: response.amount,
             file: response.documents[0].path
           };
-  
           this.invoices.push(newInvoice);
         }
-  
         this.currentInvoice = {
           name: '',
           amount: '',
@@ -480,5 +485,25 @@ export class ViewOperationComponent implements OnInit {
     }
   }
 
+  async deleteInvoice(invoiceId: number) {
+    this.loading = await this.loadingController.create({
+      cssClass: 'custom-spinner',
+      spinner: null,
+      translucent: true,
+      backdropDismiss: false,
+    });
+    await this.loading.present();
+    const deleteUrl = `${this.appUrl}api/delete-invoice/${invoiceId}`;
+    this.http.delete(deleteUrl).subscribe(
+        response => {
+            console.log('Factura eliminada con éxito', response);
+            this.invoices = this.invoices.filter(invoice => invoice.id !== invoiceId);
+            this.loading.dismiss();
+        },
+        error => {
+            this.loading.dismiss();
+        }
+    );
+}
   
 }

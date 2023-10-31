@@ -62,6 +62,8 @@ export class FolderPage implements OnInit {
     );
    } else {
     console.log("entre en else de ngOnufrneerfg")
+    this.loading.dismiss();
+    this.logout();
    }
 }
 async showInvalidResponseAlert() {
