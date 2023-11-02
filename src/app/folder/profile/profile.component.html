@@ -1,9 +1,9 @@
 <ion-card>
   <img alt="Silhouette of mountains" src="../../../assets/avion2.jpeg" class="back-image"/>
   <img *ngIf="!avatar" class="profile-image" src="../../../assets/profile2.jpeg" alt="User Profile Image">
-  <img *ngIf="avatar" class="profile-image" [src]="avatar" alt="User Profile Image">
   <button ion-button class="change-photo-btn" (click)="changePhoto()">
-    <ion-icon name="camera-outline"></ion-icon>
+    <ion-icon name="camera-outline" class="camera"></ion-icon>
+    <img *ngIf="avatar" class="profile-image-btn" [src]="appUrl + avatar" alt="User Profile Image">
   </button>
   
   <ion-card-header class="centered-header">

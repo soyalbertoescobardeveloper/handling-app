@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RefresherCustomEvent } from '@ionic/angular';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoadingController } from '@ionic/angular';
 import { IonSpinner } from '@ionic/angular';
 import { environment } from '../../environments/environment';
@@ -43,8 +43,12 @@ export class FolderPage implements OnInit {
     });
     await this.loading.present();
     const user = await this.storage.get('user');
-    if (user && user.id) {
-    this.http.get(`${this.apiUrl}api/agent/${user.id}`).subscribe(
+    const token = await this.storage.get('access_token'); 
+    if (user && user.id && token) {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    this.http.get(`${this.apiUrl}api/auth/agent/${user.id}`, { headers }).subscribe(
       (response: any) => {
         this.loading.dismiss();
         if (Array.isArray(response)) {
@@ -61,7 +65,6 @@ export class FolderPage implements OnInit {
       }
     );
    } else {
-    console.log("entre en else de ngOnufrneerfg")
     this.loading.dismiss();
     this.logout();
    }

@@ -1,9 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingController, ModalController, Platform } from '@ionic/angular';
 import { SharedServicesService } from '../services/shared-services.service';
 import { environment } from '../../environments/environment';
+import { Storage } from '@ionic/storage';
+import { DomSanitizer } from '@angular/platform-browser';
 
 interface MessageData {
   operation_id: number;
@@ -34,7 +36,6 @@ interface MessageData {
   diplomatic_card?: string;
   diplomatic_card_status?: number;
   diplomatic_card_comments?: string;
-
 }
 interface CrewData {
   crew_id: number;
@@ -63,7 +64,7 @@ interface AircraftData {
   airworthiness_card: string;
   airworthiness_card_status: number;
   airworthiness_card_comments: string;
-  airworthiness_card_id: number,
+  airworthiness_card_id: number;
 
   certificate_tail?: string;
   certificate_tail_status: number;
@@ -80,7 +81,6 @@ interface AircraftData {
   entry_permit?: string;
   entry_permit_status?: number;
   entry_permit_comments?: string;
-
 }
 interface AirportData {
   airport_departure_id: number;
@@ -100,7 +100,7 @@ interface ServiceData {
 interface Invoice {
   name: string;
   amount: string;
-  file?: File | null; 
+  file?: File | null;
 }
 
 @Component({
@@ -122,15 +122,18 @@ export class ViewOperationComponent implements OnInit {
   currentInvoice: Invoice = {
     name: '',
     amount: '',
-    file: null
+    file: null,
   };
 
+  
   constructor(
     private http: HttpClient,
     private sharedDataService: SharedServicesService,
     private modalCtrl: ModalController,
     private loadingController: LoadingController,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private storage: Storage,
+    private sanitizer: DomSanitizer
   ) {
     this.message = {
       operation_id: 1,
@@ -152,7 +155,7 @@ export class ViewOperationComponent implements OnInit {
           certificate_tail: '',
           certificate_tail_status: 0,
           certificate_tail_comments: '',
-          
+
           mexican_insurance: '',
           mexican_insurance_status: 0,
           mexican_insurance_comments: '',
@@ -219,27 +222,40 @@ export class ViewOperationComponent implements OnInit {
     };
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     const id = this.activatedRoute.snapshot.paramMap.get('id') as string;
-    this.http.get(this.appUrl + 'api/get-operation/' + id).subscribe(
-      (response: any) => {
-        this.message = response;
-        if (response.invoices && response.invoices.length > 0) {
-          this.invoices = response.invoices.map((invoice: { invoice_name: any; invoice_amount: any; invoice_path: any; invoice_id: any; }) => ({
-            name: invoice.invoice_name,
-            amount: invoice.invoice_amount,
-            file: invoice.invoice_path,
-            id: invoice.invoice_id,
-          }));
+    const token = await this.storage.get('access_token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    this.http
+      .get(this.appUrl + 'api/auth/get-operation/' + id, { headers })
+      .subscribe(
+        (response: any) => {
+          this.message = response;
+          if (response.invoices && response.invoices.length > 0) {
+            this.invoices = response.invoices.map(
+              (invoice: {
+                invoice_name: any;
+                invoice_amount: any;
+                invoice_path: any;
+                invoice_id: any;
+              }) => ({
+                name: invoice.invoice_name,
+                amount: invoice.invoice_amount,
+                file: invoice.invoice_path,
+                id: invoice.invoice_id,
+              })
+            );
+          }
+          if (this.message !== undefined) {
+            this.sharedDataService.setMessage(this.message);
+          }
+        },
+        (error) => {
+          console.error('Error al realizar la solicitud HTTP', error);
         }
-        if (this.message !== undefined) {
-          this.sharedDataService.setMessage(this.message);
-        }
-      },
-      (error) => {
-        console.error('Error al realizar la solicitud HTTP', error);
-      }
-    );
+      );
   }
 
   getBackButtonText() {
@@ -256,33 +272,26 @@ export class ViewOperationComponent implements OnInit {
       this.message!.charter_permission_mxn_status = event.detail.checked
         ? 1
         : 2;
-    }
-    else if (propertyName === 'diplomatic_card_status') {
-      this.message!.diplomatic_card_status = event.detail.checked
-        ? 1
-        : 2;
-    }
-    else if (propertyName === 'airworthiness_card_status') {
+    } else if (propertyName === 'diplomatic_card_status') {
+      this.message!.diplomatic_card_status = event.detail.checked ? 1 : 2;
+    } else if (propertyName === 'airworthiness_card_status') {
       this.message!.aircraft[0].airworthiness_card_status = event.detail.checked
         ? 1
         : 2;
-    }
-    else if (propertyName === 'mexican_insurance_status') {
+    } else if (propertyName === 'mexican_insurance_status') {
       this.message!.aircraft[0].mexican_insurance_status = event.detail.checked
         ? 1
         : 2;
-    }
-    else if (propertyName === 'certificate_tail_status') {
+    } else if (propertyName === 'certificate_tail_status') {
       this.message!.aircraft[0].certificate_tail_status = event.detail.checked
         ? 1
         : 2;
-    }
-    else if (propertyName === 'worldwide_insurance_status') {
-      this.message!.aircraft[0].worldwide_insurance_status = event.detail.checked
+    } else if (propertyName === 'worldwide_insurance_status') {
+      this.message!.aircraft[0].worldwide_insurance_status = event.detail
+        .checked
         ? 1
         : 2;
-    }
-    else if (propertyName === 'entry_permit_status') {
+    } else if (propertyName === 'entry_permit_status') {
       this.message!.aircraft[0].entry_permit_status = event.detail.checked
         ? 1
         : 2;
@@ -302,7 +311,7 @@ export class ViewOperationComponent implements OnInit {
     let ids;
     type DocumentMappingType = {
       [key: string]: {
-        id:string;
+        id: string;
         statusKey: string;
         commentsKey: string;
         model: string;
@@ -318,14 +327,14 @@ export class ViewOperationComponent implements OnInit {
         path: '',
       },
       piu: {
-        id:'operation_id',
+        id: 'operation_id',
         statusKey: 'piu_status',
         commentsKey: 'piu_comments',
         model: 'ope',
         path: '',
       },
       charter_permission_mxn: {
-        id:'operation_id',
+        id: 'operation_id',
         statusKey: 'charter_permission_mxn_status',
         commentsKey: 'charter_permission_mxn_comments',
         model: 'ope',
@@ -376,14 +385,19 @@ export class ViewOperationComponent implements OnInit {
     };
     const mapping = documentMappings[DocumentType];
 
-    const appendToFormData = (formData: FormData, key: string, mapping: any) => {
-      let source = mapping.path ? getNestedProperty(this.message, mapping.path) : this.message;
+    const appendToFormData = (
+      formData: FormData,
+      key: string,
+      mapping: any
+    ) => {
+      let source = mapping.path
+        ? getNestedProperty(this.message, mapping.path)
+        : this.message;
       let value = source?.[key] || (key.includes('status') ? 0 : '');
       formData.append(key, value.toString());
-    }
-    
+    };
+
     if (mapping) {
-      
       const idValue = getNestedProperty(this.message, mapping.id);
       if (idValue !== undefined && idValue !== null) {
         ids = idValue;
@@ -391,23 +405,15 @@ export class ViewOperationComponent implements OnInit {
         ids = mapping.id;
       }
       model = mapping.model || 'ope';
-      appendToFormData(
-        formData,
-        mapping.statusKey,
-        mapping
-      );
-      appendToFormData(
-        formData,
-        mapping.commentsKey,
-        mapping
-      );
+      appendToFormData(formData, mapping.statusKey, mapping);
+      appendToFormData(formData, mapping.commentsKey, mapping);
       formData.append('_method', 'PUT');
     }
-    
+
     function getNestedProperty(obj: any, path: string) {
       return path.split('.').reduce((o, k) => (o || {})[k], obj);
     }
-    
+
     this.http
       .post(this.appUrl + 'api/update-document/' + model + '/' + ids, formData)
       .subscribe(
@@ -453,33 +459,41 @@ export class ViewOperationComponent implements OnInit {
         formData.append('invoice_path', this.currentInvoice.file);
       }
       const id = this.activatedRoute.snapshot.paramMap.get('id') as string;
-      this.http.post<any>(this.appUrl+ 'api/invoice/'+ id, formData).subscribe(response => {
-        if (response && response.documents && response.documents.length > 0) {
-          const newInvoice = {
-            name: response.name,
-            amount: response.amount,
-            file: response.documents[0].path
-          };
-          this.invoices.push(newInvoice);
-        }
-        this.currentInvoice = {
-          name: '',
-          amount: '',
-          file: null
-        };
-        this.loading.dismiss();
-        this.modalCtrl.dismiss();
-      }, error => {
-        this.loading.dismiss();
-        console.error('Error al enviar la factura:', error);
-      });
+      this.http
+        .post<any>(this.appUrl + 'api/invoice/' + id, formData)
+        .subscribe(
+          (response) => {
+            if (
+              response &&
+              response.documents &&
+              response.documents.length > 0
+            ) {
+              const newInvoice = {
+                name: response.name,
+                amount: response.amount,
+                file: response.documents[0].path,
+              };
+              this.invoices.push(newInvoice);
+            }
+            this.currentInvoice = {
+              name: '',
+              amount: '',
+              file: null,
+            };
+            this.loading.dismiss();
+            this.modalCtrl.dismiss();
+          },
+          (error) => {
+            this.loading.dismiss();
+            console.error('Error al enviar la factura:', error);
+          }
+        );
     }
   }
-  
 
   handleFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
-  
+
     if (input.files && input.files.length) {
       this.currentInvoice.file = input.files[0];
     }
@@ -495,15 +509,41 @@ export class ViewOperationComponent implements OnInit {
     await this.loading.present();
     const deleteUrl = `${this.appUrl}api/delete-invoice/${invoiceId}`;
     this.http.delete(deleteUrl).subscribe(
-        response => {
-            console.log('Factura eliminada con éxito', response);
-            this.invoices = this.invoices.filter(invoice => invoice.id !== invoiceId);
-            this.loading.dismiss();
-        },
-        error => {
-            this.loading.dismiss();
-        }
+      (response) => {
+        this.invoices = this.invoices.filter(
+          (invoice) => invoice.id !== invoiceId
+        );
+        this.loading.dismiss();
+      },
+      (error) => {
+        this.loading.dismiss();
+      }
     );
-}
+  }
+
+  downloadManifest() {
+    const url = this.appUrl + 'api/send-manifest/1';
+    this.http.get(url, { responseType: 'text' }).subscribe(response => {
+      const parsedResponse = JSON.parse(response);
+      if (parsedResponse && parsedResponse.message) {
+        // Construyendo la URL completa del archivo
+        const completeFileUrl = `https://handling-dev.sae.com.mx${parsedResponse.message}`;
+        this.triggerDownload(completeFileUrl);
+      } else {
+        console.error('La respuesta del servidor no contiene la ruta del archivo');
+      }
+    }, error => {
+      console.error('Error al descargar el archivo:', error);
+    });
+  }
+  
+  triggerDownload(url: string) {
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Manifest.pdf'; 
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
   
 }
