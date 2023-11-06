@@ -407,7 +407,7 @@ export class ViewOperationComponent implements OnInit {
       model = mapping.model || 'ope';
       appendToFormData(formData, mapping.statusKey, mapping);
       appendToFormData(formData, mapping.commentsKey, mapping);
-      formData.append('_method', 'PUT');
+      formData.append('method', '_PUT');
     }
 
     function getNestedProperty(obj: any, path: string) {

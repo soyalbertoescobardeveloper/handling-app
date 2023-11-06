@@ -155,7 +155,7 @@ export class DetailPaxComponent implements OnInit {
           mapping.commentsKey,
           mapping
         );
-        formData.append('_method', 'PUT');
+        formData.append('method', '_PUT');
       }
     function getNestedProperty(obj: any, path: string) {
       return path.split('.').reduce((o, k) => (o || {})[k], obj);

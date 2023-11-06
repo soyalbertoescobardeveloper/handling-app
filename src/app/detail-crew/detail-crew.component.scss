@@ -11,3 +11,19 @@
 ion-modal {
   --height: auto;
 }
+
+.card-content-md {
+  padding-inline-end: 0px;
+}
+
+.item-inner {
+  padding-inline-end: 0% !important;
+}
+.large-btn {
+  font-size: 20px;
+  height: auto;
+  width: 100%;
+  line-height: 60px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
