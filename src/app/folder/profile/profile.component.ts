@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Storage } from '@ionic/storage';
 import { LoadingController } from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { TranslationService } from 'src/app/services/translation.service';
 
 @Component({
   selector: 'app-profile',
@@ -33,7 +34,8 @@ export class ProfileComponent implements OnInit {
     private http: HttpClient,
     private storage: Storage,
     private loadingController: LoadingController,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    public translationService: TranslationService,
   ) {}
 
   async ngOnInit() {

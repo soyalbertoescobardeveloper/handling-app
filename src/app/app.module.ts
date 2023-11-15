@@ -8,11 +8,12 @@ import { ModalCommentModule } from './modal-comment/modal-comment.module';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { GenericModalModule } from './generic-modal/generic-modal.module';
 import { InvoiceUploadModule } from './invoice-upload/invoice-upload.module';
+import { TranslationService } from './services/translation.service';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ModalCommentModule, IonicStorageModule.forRoot(), GenericModalModule, InvoiceUploadModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy,}],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy,}, TranslationService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

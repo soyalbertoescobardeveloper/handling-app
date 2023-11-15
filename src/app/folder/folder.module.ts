@@ -9,6 +9,8 @@ import { FolderPageRoutingModule } from './folder-routing.module';
 import { FolderPage } from './folder.page';
 import { MessageModule } from './message/message.module';
 import { ProfileModule } from './profile/profile.module';
+import { HelpModule } from './help/help.module';
+import { TranslationService } from '../services/translation.service';
 
 @NgModule({
   imports: [
@@ -18,6 +20,7 @@ import { ProfileModule } from './profile/profile.module';
     FolderPageRoutingModule,
     MessageModule,
     ProfileModule,
+    HelpModule,
   ],
   declarations: [FolderPage]
 })

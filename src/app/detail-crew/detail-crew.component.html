@@ -13,11 +13,11 @@
   <ion-card>
     <ion-card-header>
       <ion-card-title
-        >Crew: {{ crew?.crew_parental }}
+        >{{ translationService.getTranslation('crew') }}: {{ crew?.crew_parental }}
         {{ crew?.crew_maternal ? crew?.crew_maternal : "" }}
         {{ crew?.crew_name }}</ion-card-title
       >
-      <ion-card-subtitle>Documents</ion-card-subtitle>
+      <ion-card-subtitle>{{ translationService.getTranslation('cardSubtitle') }}</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
       <ion-list>
@@ -47,9 +47,9 @@
             <ion-row>
               <ion-col size="9">
                 <div class="ion-text-wrap">
-                  <p class="title-crew">Passport</p>
+                  <p class="title-crew">{{ translationService.getTranslation('passport') }}</p>
                   <h4>
-                    Date Exp:
+                    {{ translationService.getTranslation('date') }}
                     <ion-note>
                       {{
                         crew?.crew_pass_exp
@@ -82,14 +82,13 @@
                           [checked]="true"
                           [checked]="crew?.passport_image_crew_status === 1"
                           (ionChange)="checkboxChanged($event, 'crew_pass_sta')"
-                          >Verify Passport<br /><ion-note class="ion-text-wrap"
-                            >Make sure to check the document before checking
-                            in</ion-note
+                          >{{ translationService.getTranslation('verify') }} {{ translationService.getTranslation('passport') }}<br /><ion-note class="ion-text-wrap"
+                            >{{ translationService.getTranslation('make') }}</ion-note
                           ></ion-toggle
                         >
                       </ion-item>
                       <ion-item>
-                        <ion-label position="floating">Comments</ion-label>
+                        <ion-label position="floating">{{ translationService.getTranslation('comments') }}</ion-label>
                         <ion-textarea
                           [(ngModel)]="crew!.passport_image_crew_comments"
                         ></ion-textarea>
@@ -101,7 +100,7 @@
                               class="large-btn"
                               (click)="sendVerify('crew_pass')"
                               expand="full"
-                              >Verify</ion-button
+                              >{{ translationService.getTranslation('verify') }}</ion-button
                             >
                           </ion-item>
                         </ion-col>
@@ -159,7 +158,7 @@
                 <div class="ion-text-wrap">
                   <p class="title-crew">Visa</p>
                   <h4>
-                    Date Expiration:
+                    {{ translationService.getTranslation('date') }}
                     <ion-note>
                       {{
                         crew?.crew_visa_exp
@@ -192,14 +191,13 @@
                           [checked]="true"
                           [checked]="crew?.visa_image_crew_status === 1"
                           (ionChange)="checkboxChanged($event, 'crew_visa_sta')"
-                          >Verify Visa<br /><ion-note class="ion-text-wrap"
-                            >Make sure to check the document before checking
-                            in</ion-note
+                          >{{ translationService.getTranslation('verify') }} Visa<br /><ion-note class="ion-text-wrap"
+                            >{{ translationService.getTranslation('make') }}</ion-note
                           ></ion-toggle
                         >
                       </ion-item>
                       <ion-item>
-                        <ion-label position="floating">Comments</ion-label>
+                        <ion-label position="floating">{{ translationService.getTranslation('comments') }}</ion-label>
                         <ion-textarea
                           [(ngModel)]="crew!.visa_image_crew_comments"
                         ></ion-textarea>
@@ -211,7 +209,7 @@
                               class="large-btn"
                               (click)="sendVerify('crew_visa')"
                               expand="full"
-                              >Verify</ion-button
+                              >{{ translationService.getTranslation('verify') }}</ion-button
                             >
                           </ion-item>
                         </ion-col>
@@ -266,9 +264,9 @@
             <ion-row>
               <ion-col size="9">
                 <div class="ion-text-wrap">
-                  <p class="title-crew">License</p>
+                  <p class="title-crew">{{ translationService.getTranslation('license') }}</p>
                   <h4>
-                    Date Expiration:
+                    {{ translationService.getTranslation('date') }}
                     <ion-note>
                       {{
                         crew?.crew_lice_exp
@@ -300,14 +298,13 @@
                           [checked]="true"
                           [checked]="crew?.license_image_crew_status === 1"
                           (ionChange)="checkboxChanged($event, 'crew_license_sta')"
-                          >Verify License<br /><ion-note class="ion-text-wrap"
-                            >Make sure to check the document before checking
-                            in</ion-note
+                          >{{ translationService.getTranslation('verify') }} {{ translationService.getTranslation('license') }}<br /><ion-note class="ion-text-wrap"
+                            >{{ translationService.getTranslation('make') }}</ion-note
                           ></ion-toggle
                         >
                       </ion-item>
                       <ion-item>
-                        <ion-label position="floating">Comments</ion-label>
+                        <ion-label position="floating">{{ translationService.getTranslation('comments') }}</ion-label>
                         <ion-textarea
                           [(ngModel)]="crew!.license_image_crew_comments"
                         ></ion-textarea>
@@ -319,7 +316,7 @@
                               class="large-btn"
                               (click)="sendVerify('crew_license')"
                               expand="full"
-                              >Verify</ion-button
+                              >{{ translationService.getTranslation('verify') }}</ion-button
                             >
                           </ion-item>
                         </ion-col>
@@ -375,9 +372,9 @@
             <ion-row>
               <ion-col size="9">
           <div class="ion-text-wrap">
-            <p class="title-crew">Medical Exam</p>
+            <p class="title-crew">{{ translationService.getTranslation('medical') }}</p>
             <h4>
-              Date Expiration:
+              {{ translationService.getTranslation('date') }}
               <ion-note>
                 {{
                   crew?.crew_medi_exp
@@ -410,14 +407,13 @@
                         [checked]="true"
                         [checked]="crew?.medical_exam_image_crew_status === 1"
                         (ionChange)="checkboxChanged($event, 'crew_medical_exam_sta')"
-                        >Verify Medical exam<br /><ion-note class="ion-text-wrap"
-                          >Make sure to check the document before checking
-                          in</ion-note
+                        >{{ translationService.getTranslation('verify') }} {{ translationService.getTranslation('medical') }}<br /><ion-note class="ion-text-wrap"
+                          >{{ translationService.getTranslation('make') }}</ion-note
                         ></ion-toggle
                       >
                     </ion-item>
                     <ion-item>
-                      <ion-label position="floating">Comments</ion-label>
+                      <ion-label position="floating">{{ translationService.getTranslation('comments') }}</ion-label>
                       <ion-textarea
                         [(ngModel)]="crew!.medical_exam_image_crew_comments"
                       ></ion-textarea>
@@ -429,7 +425,7 @@
                             class="large-btn"
                             (click)="sendVerify('crew_medical_exam')"
                             expand="full"
-                            >Verify</ion-button
+                            >{{ translationService.getTranslation('verify') }}</ion-button
                           >
                         </ion-item>
                       </ion-col>

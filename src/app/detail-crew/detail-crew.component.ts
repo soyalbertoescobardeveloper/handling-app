@@ -5,6 +5,7 @@ import { SharedServicesService } from '../services/shared-services.service';
 import { ModalCommentComponent } from '../modal-comment/modal-comment.component';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { TranslationService } from '../services/translation.service';
 
 export interface MessageData {
   crews?: CrewData[];
@@ -58,6 +59,7 @@ export class DetailCrewComponent implements OnInit {
     private modalController: ModalController,
     private loadingController: LoadingController,
     private http: HttpClient,
+    public translationService: TranslationService,
 
   ) {
 

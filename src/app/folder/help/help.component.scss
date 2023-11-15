@@ -1,0 +1,34 @@
+ion-grid {
+    --ion-grid-padding: 20px;
+  
+    --ion-grid-padding-xs: 20px;
+    --ion-grid-padding-sm: 20px;
+    --ion-grid-padding-md: 20px;
+    --ion-grid-padding-lg: 20px;
+    --ion-grid-padding-xl: 20px;
+  
+    --ion-grid-column-padding: 30px;
+  
+    --ion-grid-column-padding-xs: 30px;
+    --ion-grid-column-padding-sm: 30px;
+    --ion-grid-column-padding-md: 30px;
+    --ion-grid-column-padding-lg: 30px;
+    --ion-grid-column-padding-xl: 30px;
+  }
+  
+  ion-col {
+    background-color: var(--ion-background-color);
+    border: solid 1px #175890;
+    text-align: center;
+  }
+
+  .profile-image {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 15%; 
+    height: 38%;
+    border-radius: 50%; 
+    border: 3px solid white; 
+    z-index: 2;
+    left: 27%;
+  }

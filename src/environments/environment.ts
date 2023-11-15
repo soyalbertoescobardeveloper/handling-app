@@ -4,7 +4,14 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://handling-dev.sae.com.mx/'
+  apiUrl: 'https://handling-dev.sae.com.mx/',
+  apiKey: "AIzaSyDd9-PEL2N3krGqC_lP5yEYz9HvPOaheis",
+  authDomain: "handling-app.firebaseapp.com",
+  projectId: "handling-app",
+  storageBucket: "handling-app.appspot.com",
+  messagingSenderId: "32509042696",
+  appId: "1:32509042696:web:d4a0929ca578b3bc0971bd",
+  measurementId: "G-6VBR9XDHBH"
 };
 /*
  * For easier debugging in development mode, you can import the following file

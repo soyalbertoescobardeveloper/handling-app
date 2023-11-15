@@ -14,7 +14,7 @@
           <ion-menu-toggle auto-hide="false">
             <ion-item (click)="logout()" lines="none" detail="false">
               <ion-icon aria-hidden="true" slot="start" name="log-out-outline"></ion-icon>
-              <ion-label>Cerrar Sesión</ion-label>
+              <ion-label>{{translationService.getTranslation('sesion')}}</ion-label>
             </ion-item>
           </ion-menu-toggle>
         </ion-list>

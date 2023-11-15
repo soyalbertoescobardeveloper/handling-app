@@ -9,11 +9,11 @@
 <ion-content   [fullscreen]="true">
 <ion-card>
   <ion-card-header>
-    <ion-card-title>Pax: {{ pax?.pax_parental}}
+    <ion-card-title>{{ translationService.getTranslation('pax') }} : {{ pax?.pax_parental}}
       {{ pax?.pax_maternal ? pax?.pax_maternal : "" }}
       {{ pax?.pax_name }}
        </ion-card-title>
-    <ion-card-subtitle>Documents</ion-card-subtitle>
+    <ion-card-subtitle>{{ translationService.getTranslation('cardSubtitle') }}</ion-card-subtitle>
   </ion-card-header>
   <ion-card-content>
     <ion-list>
@@ -43,9 +43,9 @@
         <ion-row>
           <ion-col size="10">
             <div class="ion-text-wrap">
-              <p class="title-pax">Passport</p>
+              <p class="title-pax">{{ translationService.getTranslation('passport') }}</p>
               <h4>
-                Date Exp:
+                {{ translationService.getTranslation('date') }}
                 <ion-note>
                   {{
                     pax?.pax_pass_exp
@@ -78,14 +78,14 @@
                       [checked]="true"
                       [checked]="pax?.passport_image_pax_status === 1"
                       (ionChange)="checkboxChanged($event, 'pax_pass_sta')"
-                      >Verify Passport<br /><ion-note class="ion-text-wrap"
-                        >Make sure to check the document before checking
-                        in</ion-note
+                      >{{ translationService.getTranslation('verify') }}
+                        {{ translationService.getTranslation('passport') }}<br /><ion-note class="ion-text-wrap"
+                        > {{ translationService.getTranslation('make') }}</ion-note
                       ></ion-toggle
                     >
                   </ion-item>
                   <ion-item>
-                    <ion-label position="floating">Comments</ion-label>
+                    <ion-label position="floating">{{ translationService.getTranslation('comments') }}</ion-label>
                     <ion-textarea
                       [(ngModel)]="pax!.passport_image_pax_comments"
                     ></ion-textarea>
@@ -97,7 +97,7 @@
                           class="large-btn"
                           (click)="sendVerify('pax_pass')"
                           expand="full"
-                          >Verify</ion-button
+                          > {{ translationService.getTranslation('verify') }} </ion-button
                         >
                       </ion-item>
                     </ion-col>
@@ -155,7 +155,7 @@
             <div class="ion-text-wrap">
               <p class="title-pax">Visa</p>
               <h4>
-                Date Expiration:
+                {{ translationService.getTranslation('date') }}
                 <ion-note>
                   {{
                     pax?.pax_visa_exp
@@ -188,14 +188,13 @@
                       [checked]="true"
                       [checked]="pax?.visa_image_pax_status === 1"
                       (ionChange)="checkboxChanged($event, 'pax_visa_sta')"
-                      >Verify Visa<br /><ion-note class="ion-text-wrap"
-                        >Make sure to check the document before checking
-                        in</ion-note
+                      >{{ translationService.getTranslation('verify') }} Visa<br /><ion-note class="ion-text-wrap"
+                        > {{ translationService.getTranslation('make') }}</ion-note
                       ></ion-toggle
                     >
                   </ion-item>
                   <ion-item>
-                    <ion-label position="floating">Comments</ion-label>
+                    <ion-label position="floating">{{ translationService.getTranslation('comments') }}</ion-label>
                     <ion-textarea
                       [(ngModel)]="pax!.visa_image_pax_comments"
                     ></ion-textarea>
@@ -207,7 +206,7 @@
                           class="large-btn"
                           (click)="sendVerify('pax_visa')"
                           expand="full"
-                          >Verify</ion-button
+                          >{{ translationService.getTranslation('verify') }}</ion-button
                         >
                       </ion-item>
                     </ion-col>

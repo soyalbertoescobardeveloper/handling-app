@@ -8,6 +8,8 @@ import { environment } from '../../environments/environment';
 import { Storage } from '@ionic/storage';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
+import { Observable } from 'rxjs';
+import { TranslationService } from '../services/translation.service';
 
 
 @Component({
@@ -20,13 +22,18 @@ export class FolderPage implements OnInit {
   loading!: HTMLIonLoadingElement;
   public folder!: string;
   private activatedRoute = inject(ActivatedRoute);
-  constructor(private http: HttpClient,private loadingController: LoadingController, private storage: Storage,
+  appUrl = environment.apiUrl;
+  searchInput!: string;
+
+  constructor(private http: HttpClient,private loadingController: LoadingController,
+    public translationService: TranslationService,
+    private storage: Storage,
     private alertController: AlertController,
     private authService: AuthService,
     private router: Router) {
     
   }
-  messages: any[] = [];   
+  messages: any[] | null = [];
   refresh(ev: any) {
     setTimeout(() => {
       (ev as RefresherCustomEvent).detail.complete();
@@ -78,6 +85,59 @@ async showInvalidResponseAlert() {
   await alert.present();
 }
 
+async realizarSolicitudGET(inputValue: string): Promise<Observable<any>> {
+  const user = await this.storage.get('user');
+  const token = await this.storage.get('access_token');
+
+  if (user && user.id && token) {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    const url = this.appUrl + `api/auth/searcher/${user.id}/${inputValue}`;
+    return this.http.get(url, { headers });
+  } else {
+    return new Observable();
+  }
+}
+
+async updateData(event: any) {
+  const query = event.target.value.toLowerCase();
+  await this.delay(300);
+
+  // this.loading = await this.loadingController.create({
+  //   cssClass: 'custom-spinner',
+  //   spinner: null, 
+  //   translucent: true,
+  //   backdropDismiss: false,
+  // });
+  await this.loading.present();
+    (await this.realizarSolicitudGET(query)).subscribe(
+    (data) => {
+      if (data && data.error) {
+        this.messages = null;
+      } else {
+        this.messages = data;
+      }
+      // this.loading.dismiss();
+
+    },
+    (error) => {
+      this.messages = null;
+      // this.loading.dismiss();
+      console.error('Error al realizar la solicitud GET:', error);
+    }
+  );
+}
+delay(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+onSearchInputChange(event: { target: { value: string; }; }) {
+  const query = event.target.value.toLowerCase();
+
+  if (!this.searchInput || this.searchInput.trim() === '') {
+    this.ngOnInit();
+  }
+}
 logout() {
   this.authService.logout();
   this.router.navigate(['/login']);

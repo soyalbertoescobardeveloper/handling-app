@@ -23,9 +23,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Necesitamos acceso a tu cámara para tomar fotos.</string>
+	<string>We need access to your camera to upload invoice images and facilitate transaction management</string>
 	<key>NSDocumentsFolderUsageDescription</key>
-	<string>Necesitamos acceso a tus documentos para guardar y leer archivos.</string>
+	<string>To streamline information management, we request access to your documents to securely save and retrieve data</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Necesitamos permiso para guardar fotos en tu galería.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

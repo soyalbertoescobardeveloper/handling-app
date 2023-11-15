@@ -6,6 +6,7 @@ import { SharedServicesService } from '../services/shared-services.service';
 import { environment } from '../../environments/environment';
 import { Storage } from '@ionic/storage';
 import { DomSanitizer } from '@angular/platform-browser';
+import { TranslationService } from '../services/translation.service';
 
 interface MessageData {
   operation_id: number;
@@ -133,7 +134,9 @@ export class ViewOperationComponent implements OnInit {
     private loadingController: LoadingController,
     private cdRef: ChangeDetectorRef,
     private storage: Storage,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    public translationService: TranslationService,
+
   ) {
     this.message = {
       operation_id: 1,

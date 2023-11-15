@@ -9,6 +9,7 @@ import { LoadingController, ModalController, Platform } from '@ionic/angular';
 import { SharedServicesService } from '../services/shared-services.service';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { TranslationService } from '../services/translation.service';
 
 interface MessageData {
   passengers?: PassengerData[];
@@ -42,6 +43,9 @@ export class DetailPaxComponent implements OnInit {
   appUrl = environment.apiUrl;
   loading!: HTMLIonLoadingElement;
 
+  cardSubtitleTranslation: string | undefined;
+
+  
   private activatedRoute = inject(ActivatedRoute);
   private platform = inject(Platform);
 
@@ -51,6 +55,7 @@ export class DetailPaxComponent implements OnInit {
     private modalController: ModalController,
     private loadingController: LoadingController,
     private http: HttpClient,
+    public translationService: TranslationService,
   ) {
      this.message = {
        passengers: [
@@ -76,6 +81,7 @@ export class DetailPaxComponent implements OnInit {
       );
       console.info('tag', this.pax);
     }
+
   }
 
   getBackButtonText() {

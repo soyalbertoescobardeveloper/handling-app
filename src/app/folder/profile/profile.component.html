@@ -14,31 +14,31 @@
 
 <ion-list lines="full" class="ion-padding-top">
   <ion-item>
-    <ion-label position="stacked">Name</ion-label>
+    <ion-label position="stacked">{{ translationService.getTranslation('name') }}</ion-label>
     <ion-input type="text" [(ngModel)]="name"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="stacked">License Agent</ion-label>
+    <ion-label position="stacked">{{ translationService.getTranslation('license') }}</ion-label>
     <ion-input type="text" [(ngModel)]="license_agent"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="stacked">RFC</ion-label>
+    <ion-label position="stacked">{{ translationService.getTranslation('rfc') }}</ion-label>
     <ion-input type="text" [(ngModel)]="lastname"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="stacked">Birthday</ion-label>
+    <ion-label position="stacked">{{ translationService.getTranslation('birth') }}</ion-label>
     <ion-input type="date" [(ngModel)]="bir"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="stacked">E-mail</ion-label>
+    <ion-label position="stacked">{{ translationService.getTranslation('email') }}</ion-label>
     <ion-input type="email" [(ngModel)]="email"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="stacked">Clabe Interbancaria</ion-label>
+    <ion-label position="stacked">{{ translationService.getTranslation('clabe') }}</ion-label>
     <ion-input type="text" [(ngModel)]="clave"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="stacked">Phone</ion-label>
+    <ion-label position="stacked">{{ translationService.getTranslation('phone') }}</ion-label>
     <ion-input type="tel" [(ngModel)]="phone"></ion-input>
   </ion-item>
 </ion-list>
@@ -47,7 +47,7 @@
   <ion-row>
     <ion-col size="12" offset="4">
       <ion-button class="custom-button" (click)="sendProfile()">
-        <ion-icon name="send-outline"></ion-icon> &nbsp;Update
+        <ion-icon name="send-outline"></ion-icon> &nbsp;{{ translationService.getTranslation('send') }}
       </ion-button >
     </ion-col>
   </ion-row>
