@@ -446,6 +446,64 @@ export class ViewOperationComponent implements OnInit {
     }
   }
 
+  // async sendInvoice(type: string) {
+  //   this.loading = await this.loadingController.create({
+  //     cssClass: 'custom-spinner',
+  //     spinner: null,
+  //     translucent: true,
+  //     backdropDismiss: false,
+  //   });
+  //   await this.loading.present();
+  //   if (type === 'invoice') {
+  //     const formData: FormData = new FormData();
+  //     formData.append('name', this.currentInvoice.name);
+  //     formData.append('amount', this.currentInvoice.amount.toString());
+  //     if (this.currentInvoice.file) {
+  //       formData.append('invoice_path', this.currentInvoice.file);
+  //     }
+  //     const id = this.activatedRoute.snapshot.paramMap.get('id') as string;
+  //     this.http
+  //       .post<any>(this.appUrl + 'api/invoice/' + id, formData)
+  //       .subscribe(
+  //         (response) => {
+  //           if (
+  //             response &&
+  //             response.documents &&
+  //             response.documents.length > 0
+  //           ) {
+  //             const newInvoice = {
+  //               name: response.name,
+  //               amount: response.amount,
+  //               file: response.documents[0].path,
+  //             };
+  //             this.invoices.push(newInvoice);
+  //           }
+  //           this.currentInvoice = {
+  //             name: '',
+  //             amount: '',
+  //             file: null,
+  //           };
+  //           this.loading.dismiss();
+  //           this.modalCtrl.dismiss();
+  //         },
+  //         (error) => {
+  //           this.loading.dismiss();
+  //           console.error('Error al enviar la factura:', error);
+  //         }
+  //       );
+  //   }
+  // }
+  dataURLtoBlob(dataURL: string) {
+    const byteString = atob(dataURL.split(',')[1]);
+    const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
+  }
+
   async sendInvoice(type: string) {
     this.loading = await this.loadingController.create({
       cssClass: 'custom-spinner',
@@ -454,23 +512,31 @@ export class ViewOperationComponent implements OnInit {
       backdropDismiss: false,
     });
     await this.loading.present();
-    if (type === 'invoice') {
-      const formData: FormData = new FormData();
+  
+    try {
+      const formData = new FormData();
       formData.append('name', this.currentInvoice.name);
       formData.append('amount', this.currentInvoice.amount.toString());
+  
       if (this.currentInvoice.file) {
-        formData.append('invoice_path', this.currentInvoice.file);
+        // If the file is a data URL, resize it before appending to formData
+        const compressedDataUrl = await this.resizeImage(this.currentInvoice.file);
+        const blob = this.dataURLtoBlob(compressedDataUrl);
+        formData.append('invoice_path', blob, 'invoice.jpg');
       }
+  
       const id = this.activatedRoute.snapshot.paramMap.get('id') as string;
+      const token = await this.storage.get('access_token');
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${token}`,
+      });
+  
+      // Assuming you have a different API endpoint for invoices
       this.http
-        .post<any>(this.appUrl + 'api/invoice/' + id, formData)
+        .post<any>(this.appUrl + 'api/invoice/' + id, formData, { headers })
         .subscribe(
           (response) => {
-            if (
-              response &&
-              response.documents &&
-              response.documents.length > 0
-            ) {
+            if (response && response.documents && response.documents.length > 0) {
               const newInvoice = {
                 name: response.name,
                 amount: response.amount,
@@ -491,8 +557,62 @@ export class ViewOperationComponent implements OnInit {
             console.error('Error al enviar la factura:', error);
           }
         );
+    } catch (error) {
+      this.loading.dismiss();
+      console.error('Error al enviar la factura:', error);
     }
   }
+  
+  
+  async resizeImage(fileOrDataURL: string | File): Promise<string> {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        const maxWidth = 800;
+        const maxHeight = 800;
+        let newWidth = img.width;
+        let newHeight = img.height;
+  
+        if (img.width > maxWidth) {
+          newWidth = maxWidth;
+          newHeight = (img.height * maxWidth) / img.width;
+        }
+  
+        if (newHeight > maxHeight) {
+          newWidth = (newWidth * maxHeight) / newHeight;
+          newHeight = maxHeight;
+        }
+  
+        const canvas = document.createElement('canvas');
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+  
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, newWidth, newHeight);
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.8);
+          resolve(compressedDataUrl);
+        } else {
+          console.error('El contexto de dibujo es nulo');
+          // Si falla la redimensión, resolvemos con el valor original
+          resolve((fileOrDataURL instanceof File ? fileOrDataURL : fileOrDataURL) as string);
+        }
+      };
+  
+      if (fileOrDataURL instanceof File) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          img.src = reader.result as string;
+        };
+        reader.readAsDataURL(fileOrDataURL);
+      } else {
+        img.src = fileOrDataURL;
+      }
+    });
+  }
+  
+  
+  
 
   handleFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -529,7 +649,6 @@ export class ViewOperationComponent implements OnInit {
     this.http.get(url, { responseType: 'text' }).subscribe(response => {
       const parsedResponse = JSON.parse(response);
       if (parsedResponse && parsedResponse.message) {
-        // Construyendo la URL completa del archivo
         const completeFileUrl = `https://handling-dev.sae.com.mx${parsedResponse.message}`;
         this.triggerDownload(completeFileUrl);
       } else {

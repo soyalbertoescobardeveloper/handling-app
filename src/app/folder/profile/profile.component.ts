@@ -77,7 +77,6 @@ export class ProfileComponent implements OnInit {
   }
   async changePhoto() {
     try {
-      // Tomar una foto o seleccionarla de la galería
       const image = await Camera.getPhoto({
         quality: 90,
         allowEditing: true,

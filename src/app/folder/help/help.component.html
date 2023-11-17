@@ -2,12 +2,12 @@
   <ion-card-header>
     <ion-card-title> {{ translationService.getTranslation('help') }}</ion-card-title>
   </ion-card-header>
-  <ion-card-content>
-    <ion-grid [fixed]="true">
-      <ion-row>
+  <ion-grid [fixed]="true">
+    <ion-row class="ion-align-items-center">
+      <ion-col size="6" class="ion-text-center">
         <img class="profile-image" src="../../../assets/world.gif" alt="World SAE">
-        <ion-col size="5"> {{ translationService.getTranslation('languaje') }} <br /> {{translationService.getTranslation('languageselect')}} </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-card-content>
+        <div>{{ translationService.getTranslation('languaje') }} <br /> {{ translationService.getTranslation('languageselect') }}</div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-card>
