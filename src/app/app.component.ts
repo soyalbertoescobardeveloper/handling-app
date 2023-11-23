@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
   public appPages = [
     { title: this.translationService.getTranslation('operations'), url: '/folder/operations', icon: 'folder' },
     { title: this.translationService.getTranslation('profile'), url: '/folder/profile', icon: 'person-circle' },
+    { title: this.translationService.getTranslation('notifications'), url: '/folder/notifications', icon: 'notifications' },
     { title: this.translationService.getTranslation('help'), url: '/folder/help', icon: 'cog' },
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
@@ -24,6 +25,7 @@ export class AppComponent implements OnInit {
       this.appPages = [
         { title: this.translationService.getTranslation('operations'), url: '/folder/operations', icon: 'folder' },
         { title: this.translationService.getTranslation('profile'), url: '/folder/profile', icon: 'person-circle' },
+        { title: this.translationService.getTranslation('notifications'), url: '/folder/notifications', icon: 'notifications' },
         { title: this.translationService.getTranslation('help'), url: '/folder/help', icon: 'cog' },
       ];
     });

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { GenericModalComponent } from '../generic-modal/generic-modal.component';
 import { ActionPerformed, PushNotificationSchema, PushNotifications, Token } from '@capacitor/push-notifications';
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-login',
@@ -13,42 +14,78 @@ import { ActionPerformed, PushNotificationSchema, PushNotifications, Token } fro
 export class LoginPage implements OnInit {
   email: string = '';
   password: string = '';
+  private _storage: Storage | null = null;
 
-  constructor(private authService: AuthService, private router: Router, private modalController: ModalController) { }
+  constructor(private authService: AuthService, private router: Router, private modalController: ModalController,
+    private toastController: ToastController,private storage: Storage) { 
+      this.init();
+    }
+    async init() {
+      const storage = await this.storage.create();
+      this._storage = storage;
+    }
 
   ngOnInit() {
-
-    console.log('Initializing HomePage');
-
     PushNotifications.requestPermissions().then(result => {
       if (result.receive === 'granted') {
-        // Register with Apple / Google to receive push via APNS/FCM
         PushNotifications.register();
       } else {
-        // Show some error
       }
     });
 
+    PushNotifications.addListener('registration',
+      (token: Token) => {
+        alert('Push registration success, token: ' + token.value);
+      }
+    );
 
     PushNotifications.addListener('registrationError', (error: any) => {
       alert('Error on registration: ' + JSON.stringify(error));
     });
 
-    PushNotifications.addListener(
-      'pushNotificationReceived',
-      (notification: PushNotificationSchema) => {
-        alert('Push received: ' + JSON.stringify(notification));
-      },
-    );
+    // PushNotifications.addListener(
+    //   'pushNotificationReceived',
+    //   async (notification: PushNotificationSchema) => {
+    //     const toast = await this.toastController.create({
+    //       header: notification.title,
+    //       message: notification.body,
+    //       position: 'top',
+    //       duration: 3000
+    //     });
+    //     await toast.present();
+    //     this.saveNotification(notification);
+    //     this.router.navigate(['folder/notifications']);
+    //   },
+    // );
 
-    PushNotifications.addListener(
-      'pushNotificationActionPerformed',
-      (notification: ActionPerformed) => {
-        alert('Push action performed: ' + JSON.stringify(notification));
-      },
-    );
-  
+    // PushNotifications.addListener(
+    //   'pushNotificationActionPerformed',
+    //   (notification: ActionPerformed) => {
+    //     this.saveNotification(notification);
+    //     console.log(notification);
+    //     this.router.navigate(['folder/notifications']);
+    //   },
+    // );
   }
+
+  // async saveNotification(notificationData: PushNotificationSchema | ActionPerformed) {
+  //   let savedNotification;
+  //   if ('notification' in notificationData) {
+  //     const notification = notificationData.notification;
+  //     savedNotification = {
+  //       title: notification.title,
+  //       body: notification.body
+  //     };
+  //   } else {
+  //     savedNotification = {
+  //       title: notificationData.title,
+  //       body: notificationData.body
+  //     };
+  //   }
+  //   const notifications = await this._storage?.get('notifications') || [];
+  //   notifications.push(savedNotification);
+  //   await this._storage?.set('notifications', notifications);
+  // }
 
   async presentGenericModal(title: string, message: string) {
     const modal = await this.modalController.create({
@@ -76,7 +113,7 @@ export class LoginPage implements OnInit {
       })
       .catch((error) => {
         console.error('Error de autenticación:', error);
-        //this.presentGenericModal('Error de Autenticación', 'Credenciales incorrectas');
+        this.presentGenericModal('Error de Autenticación', 'Credenciales incorrectas');
         this.openCustomDialogModal();
       });
   }
@@ -84,4 +121,5 @@ export class LoginPage implements OnInit {
     const modal = document.querySelector('ion-modal#example-modal') as HTMLIonModalElement;
     modal.present();
   }
+
 }

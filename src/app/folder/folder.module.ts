@@ -11,6 +11,7 @@ import { MessageModule } from './message/message.module';
 import { ProfileModule } from './profile/profile.module';
 import { HelpModule } from './help/help.module';
 import { TranslationService } from '../services/translation.service';
+import { NotificationModule } from './notification/notification.module';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { TranslationService } from '../services/translation.service';
     MessageModule,
     ProfileModule,
     HelpModule,
+    NotificationModule,
   ],
   declarations: [FolderPage]
 })

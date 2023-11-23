@@ -1,0 +1,7 @@
+<h3 class="h3-center"><ion-icon name="notifications-outline"></ion-icon>&nbsp;{{ translationService.getTranslation('notifications') }} </h3>
+<ion-item *ngFor="let notification of notifications">
+  <ion-label >
+    <h1>{{ notification.title }}</h1>
+    <p>{{notification.body}}</p>
+  </ion-label>
+</ion-item>

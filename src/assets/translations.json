@@ -39,7 +39,8 @@
     "help": "Help",
     "languaje": "Language",
     "languageselect": "English",
-    "search": "Search ..."
+    "search": "Search ...",
+    "notifications": "Notifications"
   },
   "es": {
     "passport":"Pasaporte",
@@ -81,6 +82,8 @@
     "help": "Ayuda",
     "languaje": "Idioma",
     "languageselect": "Español",
-    "search": "Buscar ..."
+    "search": "Buscar ...",
+    "notifications": "Notificaciones"
+
   }
 }
