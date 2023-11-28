@@ -40,7 +40,11 @@
     "languaje": "Language",
     "languageselect": "English",
     "search": "Search ...",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "inbox": "Chat",
+    "chats": "Chats",
+    "sendMsj": "Send",
+    "type": "Write a message ..."
   },
   "es": {
     "passport":"Pasaporte",
@@ -83,7 +87,11 @@
     "languaje": "Idioma",
     "languageselect": "Español",
     "search": "Buscar ...",
-    "notifications": "Notificaciones"
+    "notifications": "Notificaciones",
+    "inbox": "Mensajes",
+    "chats": "Mensajes",
+    "sendMsj": "Enviar",
+    "type": "Envia un mensaje ..."
 
   }
 }

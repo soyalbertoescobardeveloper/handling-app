@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
     { title: this.translationService.getTranslation('operations'), url: '/folder/operations', icon: 'folder' },
     { title: this.translationService.getTranslation('profile'), url: '/folder/profile', icon: 'person-circle' },
     { title: this.translationService.getTranslation('notifications'), url: '/folder/notifications', icon: 'notifications' },
+    { title: this.translationService.getTranslation('inbox'), url: '/chat-list', icon: 'mail' },
     { title: this.translationService.getTranslation('help'), url: '/folder/help', icon: 'cog' },
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
@@ -26,6 +27,7 @@ export class AppComponent implements OnInit {
         { title: this.translationService.getTranslation('operations'), url: '/folder/operations', icon: 'folder' },
         { title: this.translationService.getTranslation('profile'), url: '/folder/profile', icon: 'person-circle' },
         { title: this.translationService.getTranslation('notifications'), url: '/folder/notifications', icon: 'notifications' },
+        { title: this.translationService.getTranslation('inbox'), url: '/chat-list', icon: 'mail' },
         { title: this.translationService.getTranslation('help'), url: '/folder/help', icon: 'cog' },
       ];
     });
