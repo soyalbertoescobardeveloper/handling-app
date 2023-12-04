@@ -62,7 +62,7 @@ export class FolderPage implements OnInit {
           this.messages = response;
         } else {
           console.error('La respuesta no es un array válido:', response);
-          this.showInvalidResponseAlert();  // Mostrar la alerta
+          this.showInvalidResponseAlert(); 
           this.logout();
         }
       },

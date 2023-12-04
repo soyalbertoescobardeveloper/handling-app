@@ -1,0 +1,22 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-back-button [text]="getBackButtonText()" defaultHref="/chat-list"></ion-back-button>
+  </ion-buttons>
+    <ion-title>Contactos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="ion-paddding">
+  <ion-list>
+    <ion-item *ngFor="let directory of directories" (click)="openChat(directory)">
+      <ion-avatar slot="start">
+        <img [src]="directory.avatar ? appUrl + directory.avatar : '../../assets/profile.jpeg'">
+      </ion-avatar>
+      <ion-label>
+      <h2>{{ directory.name }}</h2>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

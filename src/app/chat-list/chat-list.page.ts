@@ -1,5 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ChatListService } from '../services/chat-list.service';
+import { environment } from 'src/environments/environment';
+
+export interface ChatMessage {
+  id: string;
+  created_at: string;
+  sender_id: number;
+  receiver_id: number;
+  lastMessage: string;
+  time: string;
+  contactName: string;
+  contactImage: string;
+}
 
 @Component({
   selector: 'app-chat-list',
@@ -7,39 +20,24 @@ import { Router } from '@angular/router';
   styleUrls: ['./chat-list.page.scss'],
 })
 export class ChatListPage implements OnInit {
-  chats = [
-    {
-      id: '1',
-      contactName: 'Juan Pérez',
-      contactImage: 'https://www.blogdelfotografo.com/wp-content/uploads/2022/01/retrato-anillo-luz.webp',
-      lastMessage: '¡Hola! ¿Cómo estás?',
-      time: '10:45 AM'
-    },
-    {
-      id: '2',
-      contactName: 'Ana Gómez',
-      contactImage: 'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg',
-      lastMessage: 'Nos vemos mañana',
-      time: '9:10 AM'
-    },
-    {
-      id: '3',
-      contactName: 'Carlos López',
-      contactImage: 'https://qph.cf2.quoracdn.net/main-qimg-3bb9e54e9cbd36f7157615cdc5969733-lq',
-      lastMessage: 'Te envié el documento',
-      time: 'Ayer'
-    },
-  ];
+  chats: ChatMessage[] = [];
+  appUrl = environment.apiUrl;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private chatService: ChatListService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    (await this.chatService.getMessages()).subscribe(
+      (data) => {
+        this.chats = data;
+      },
+      (error) => {
+        console.error('Error al obtener los mensajes:', error);
+      }
+    );
   }
 
   openChat(chat: any) {
-    console.log("metod open chat");
-    this.router.navigate(['/chat', chat.id]);
-
+    this.router.navigate(['/chat', chat.idChat]);
   }
 
 }

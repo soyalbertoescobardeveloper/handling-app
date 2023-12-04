@@ -1,4 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
+import { Storage } from '@ionic/storage-angular';
+import { Observable, from, switchMap } from 'rxjs';
+
 
 export interface ChatMessage {
   sender: string;
@@ -19,29 +24,26 @@ export interface Chat {
   providedIn: 'root'
 })
 export class ChatService {
-  private chats: Chat[] = [
-    {
-      id: '1',
-      contactName: 'Alberto Escobar 1',
-      contactImage: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww',
-      messages: [
-        { sender: 'Juan Pérez', content: '¡Hola! ¿Cómo estás?', timestamp: new Date(),sentByMe: false },
-        { sender: 'Yo', content: 'Bien, gracias. ¿Y tú?', timestamp: new Date(),sentByMe: true }
-      ]
-    },
-    {
-      id: '2',
-      contactName: 'Alberto Escobar 2', 
-      contactImage: 'https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/articulos/perfil-resilencia.jpg',
-      messages: [
-        { sender: 'Ana Gómez', content: 'Nos vemos mañana', timestamp: new Date(),sentByMe: true }
-      ]
-    }
-  ];
+  private chats: Chat[] = [];
+  appUrl = environment.apiUrl;
 
-  constructor() { }
+  constructor(private http: HttpClient,private storage: Storage) { }
 
-  getChatById(chatId: string): Chat | undefined {
-    return this.chats.find(chat => chat.id === chatId);
+  getChatById(chatId: string): Observable<Chat> {
+    return from(this.storage.get('user')).pipe(
+      switchMap((user: { id: any; }) => this.http.get<Chat>(`${this.appUrl}api/get-chat/${user.id}/${chatId}`))
+    );
   }
+
+
+  sendMessage(senderId: string, receiverId: string, body: string): Observable<any> {
+    const url = `${this.appUrl}api/send-message`;
+    const data = {
+      sender_id: senderId,
+      receiver_id: receiverId,
+      body: body
+    };
+    return this.http.post(url, data);
+  }
+
 }

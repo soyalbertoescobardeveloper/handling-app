@@ -5,6 +5,8 @@ import { ModalController, ToastController } from '@ionic/angular';
 import { GenericModalComponent } from '../generic-modal/generic-modal.component';
 import { ActionPerformed, PushNotificationSchema, PushNotifications, Token } from '@capacitor/push-notifications';
 import { Storage } from '@ionic/storage-angular';
+import { TokenService } from '../services/token.service';
+
 
 @Component({
   selector: 'app-login',
@@ -17,7 +19,7 @@ export class LoginPage implements OnInit {
   private _storage: Storage | null = null;
 
   constructor(private authService: AuthService, private router: Router, private modalController: ModalController,
-    private toastController: ToastController,private storage: Storage) { 
+    private toastController: ToastController,private storage: Storage, private tokenService: TokenService) { 
       this.init();
     }
     async init() {
@@ -36,6 +38,8 @@ export class LoginPage implements OnInit {
     PushNotifications.addListener('registration',
       (token: Token) => {
         console.log(token.value);
+        this.tokenService.saveToken(token.value);
+
       }
     );
 

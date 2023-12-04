@@ -40,6 +40,10 @@ const routes: Routes = [
     path: 'chat/:id',
     loadChildren: () => import('./chat/chat.module').then(m => m.ChatPageModule)
     },
+  {
+    path: 'directory',
+    loadChildren: () => import('./directory/directory.module').then( m => m.DirectoryPageModule)
+  },
 ];
 
 @NgModule({
