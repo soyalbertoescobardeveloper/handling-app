@@ -28,68 +28,18 @@ export class LoginPage implements OnInit {
     }
 
   ngOnInit() {
-    PushNotifications.requestPermissions().then(result => {
-      if (result.receive === 'granted') {
-        PushNotifications.register();
-      } else {
-      }
-    });
+  
 
-    PushNotifications.addListener('registration',
-      (token: Token) => {
-        console.log(token.value);
-        this.tokenService.saveToken(token.value);
-
-      }
-    );
-
-    PushNotifications.addListener('registrationError', (error: any) => {
-      alert('Error on registration: ' + JSON.stringify(error));
-    });
-
-    // PushNotifications.addListener(
-    //   'pushNotificationReceived',
-    //   async (notification: PushNotificationSchema) => {
-    //     const toast = await this.toastController.create({
-    //       header: notification.title,
-    //       message: notification.body,
-    //       position: 'top',
-    //       duration: 3000
-    //     });
-    //     await toast.present();
-    //     this.saveNotification(notification);
-    //     this.router.navigate(['folder/notifications']);
-    //   },
+    // PushNotifications.addListener('registration',
+    //   (token: Token) => {
+    //     console.log(token.value);
+    //     this.tokenService.saveToken(token.value);
+    //   }
     // );
-
-    // PushNotifications.addListener(
-    //   'pushNotificationActionPerformed',
-    //   (notification: ActionPerformed) => {
-    //     this.saveNotification(notification);
-    //     console.log(notification);
-    //     this.router.navigate(['folder/notifications']);
-    //   },
-    // );
+   
   }
 
-  // async saveNotification(notificationData: PushNotificationSchema | ActionPerformed) {
-  //   let savedNotification;
-  //   if ('notification' in notificationData) {
-  //     const notification = notificationData.notification;
-  //     savedNotification = {
-  //       title: notification.title,
-  //       body: notification.body
-  //     };
-  //   } else {
-  //     savedNotification = {
-  //       title: notificationData.title,
-  //       body: notificationData.body
-  //     };
-  //   }
-  //   const notifications = await this._storage?.get('notifications') || [];
-  //   notifications.push(savedNotification);
-  //   await this._storage?.set('notifications', notifications);
-  // }
+
 
   async presentGenericModal(title: string, message: string) {
     const modal = await this.modalController.create({

@@ -126,7 +126,6 @@ export class ViewOperationComponent implements OnInit {
     file: null,
   };
 
-  
   constructor(
     private http: HttpClient,
     private sharedDataService: SharedServicesService,
@@ -136,7 +135,7 @@ export class ViewOperationComponent implements OnInit {
     private storage: Storage,
     private sanitizer: DomSanitizer,
     public translationService: TranslationService,
-
+    
   ) {
     this.message = {
       operation_id: 1,
@@ -259,6 +258,8 @@ export class ViewOperationComponent implements OnInit {
           console.error('Error al realizar la solicitud HTTP', error);
         }
       );
+
+  
   }
 
   getBackButtonText() {
@@ -512,31 +513,37 @@ export class ViewOperationComponent implements OnInit {
       backdropDismiss: false,
     });
     await this.loading.present();
-  
+
     try {
       const formData = new FormData();
       formData.append('name', this.currentInvoice.name);
       formData.append('amount', this.currentInvoice.amount.toString());
-  
+
       if (this.currentInvoice.file) {
         // If the file is a data URL, resize it before appending to formData
-        const compressedDataUrl = await this.resizeImage(this.currentInvoice.file);
+        const compressedDataUrl = await this.resizeImage(
+          this.currentInvoice.file
+        );
         const blob = this.dataURLtoBlob(compressedDataUrl);
         formData.append('invoice_path', blob, 'invoice.jpg');
       }
-  
+
       const id = this.activatedRoute.snapshot.paramMap.get('id') as string;
       const token = await this.storage.get('access_token');
       const headers = new HttpHeaders({
         Authorization: `Bearer ${token}`,
       });
-  
+
       // Assuming you have a different API endpoint for invoices
       this.http
         .post<any>(this.appUrl + 'api/invoice/' + id, formData, { headers })
         .subscribe(
           (response) => {
-            if (response && response.documents && response.documents.length > 0) {
+            if (
+              response &&
+              response.documents &&
+              response.documents.length > 0
+            ) {
               const newInvoice = {
                 name: response.name,
                 amount: response.amount,
@@ -562,8 +569,7 @@ export class ViewOperationComponent implements OnInit {
       console.error('Error al enviar la factura:', error);
     }
   }
-  
-  
+
   async resizeImage(fileOrDataURL: string | File): Promise<string> {
     return new Promise((resolve) => {
       const img = new Image();
@@ -572,21 +578,21 @@ export class ViewOperationComponent implements OnInit {
         const maxHeight = 800;
         let newWidth = img.width;
         let newHeight = img.height;
-  
+
         if (img.width > maxWidth) {
           newWidth = maxWidth;
           newHeight = (img.height * maxWidth) / img.width;
         }
-  
+
         if (newHeight > maxHeight) {
           newWidth = (newWidth * maxHeight) / newHeight;
           newHeight = maxHeight;
         }
-  
+
         const canvas = document.createElement('canvas');
         canvas.width = newWidth;
         canvas.height = newHeight;
-  
+
         const ctx = canvas.getContext('2d');
         if (ctx) {
           ctx.drawImage(img, 0, 0, newWidth, newHeight);
@@ -595,10 +601,14 @@ export class ViewOperationComponent implements OnInit {
         } else {
           console.error('El contexto de dibujo es nulo');
           // Si falla la redimensión, resolvemos con el valor original
-          resolve((fileOrDataURL instanceof File ? fileOrDataURL : fileOrDataURL) as string);
+          resolve(
+            (fileOrDataURL instanceof File
+              ? fileOrDataURL
+              : fileOrDataURL) as string
+          );
         }
       };
-  
+
       if (fileOrDataURL instanceof File) {
         const reader = new FileReader();
         reader.onloadend = () => {
@@ -610,9 +620,6 @@ export class ViewOperationComponent implements OnInit {
       }
     });
   }
-  
-  
-  
 
   handleFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -646,26 +653,30 @@ export class ViewOperationComponent implements OnInit {
 
   downloadManifest() {
     const url = this.appUrl + 'api/send-manifest/1';
-    this.http.get(url, { responseType: 'text' }).subscribe(response => {
-      const parsedResponse = JSON.parse(response);
-      if (parsedResponse && parsedResponse.message) {
-        const completeFileUrl = `https://handling-dev.sae.com.mx${parsedResponse.message}`;
-        this.triggerDownload(completeFileUrl);
-      } else {
-        console.error('La respuesta del servidor no contiene la ruta del archivo');
+    this.http.get(url, { responseType: 'text' }).subscribe(
+      (response) => {
+        const parsedResponse = JSON.parse(response);
+        if (parsedResponse && parsedResponse.message) {
+          const completeFileUrl = `https://handling-dev.sae.com.mx${parsedResponse.message}`;
+          this.triggerDownload(completeFileUrl);
+        } else {
+          console.error(
+            'La respuesta del servidor no contiene la ruta del archivo'
+          );
+        }
+      },
+      (error) => {
+        console.error('Error al descargar el archivo:', error);
       }
-    }, error => {
-      console.error('Error al descargar el archivo:', error);
-    });
+    );
   }
-  
+
   triggerDownload(url: string) {
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'Manifest.pdf'; 
+    a.download = 'Manifest.pdf';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
   }
-  
 }
