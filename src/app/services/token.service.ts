@@ -18,7 +18,6 @@ export class TokenService {
     const apiUrl = this.appUrl + `api/saved-token/${user.id}`;
     const data = { token: token };
     this.http.post(apiUrl, data).subscribe(
-      response => console.log('Success:', response),
       error => console.error('Error:', error)
     );
   }

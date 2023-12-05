@@ -88,12 +88,12 @@ export class FolderPage implements OnInit {
       }
     });
     PushNotifications.addListener('registration', (token: Token) => {
-      console.log(token.value);
       this.tokenService.saveToken(token.value);
     });
     PushNotifications.addListener('registrationError', (error: any) => {
       alert('Error on registration: ' + JSON.stringify(error));
     });
+
   }
   async showInvalidResponseAlert() {
     const alert = await this.alertController.create({

@@ -27,16 +27,7 @@ export class LoginPage implements OnInit {
       this._storage = storage;
     }
 
-  ngOnInit() {
-  
-
-    // PushNotifications.addListener('registration',
-    //   (token: Token) => {
-    //     console.log(token.value);
-    //     this.tokenService.saveToken(token.value);
-    //   }
-    // );
-   
+  ngOnInit() {  
   }
 
 
