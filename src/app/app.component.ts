@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import { TranslationService } from './services/translation.service';
 import { TokenService } from './services/token.service';
+import { NotificationHandlerService } from './services/notification-handler.service';
 
 @Component({
   selector: 'app-root',
@@ -47,7 +48,8 @@ export class AppComponent implements OnInit {
     private router: Router,
     private storage: Storage,
     public translationService: TranslationService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private notificationHandlerService: NotificationHandlerService
 
   ) {
     this.translationService.languageChange.subscribe((language: string) => {

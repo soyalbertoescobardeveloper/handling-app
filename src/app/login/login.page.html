@@ -4,51 +4,33 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="login-background">
-  <img src="../../assets/icon/logotipo-completo.png" class="background-image"/>
+<ion-content [fullscreen]="true">
+  <ion-grid class="ion-no-padding">
+    <ion-row>
+      <ion-col size="12" class="ion-text-center">
+        <img src="../../assets/icon/logotipo-completo.png" class="background-image"/>
+      </ion-col>
+    </ion-row>
 
-  <div class="login-form">
-    <ion-item style="margin-top: 80%;">
-      <ion-input
-        type="email"
-        fill="" 
-        label="Email"
-        labelPlacement="floating"
-        errorText="Invalid email"
-        [(ngModel)]="email"
-        email
-      ></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input
-      type="password"
-      fill="" 
-      label="Password"
-      labelPlacement="floating"
-      errorText="Invalid Pass"
-      [(ngModel)]="password"
-      password
-    ></ion-input>
-    </ion-item>
-    <ion-button expand="full" (click)="login()" color="primary" style="margin-top: 7%;" [disabled]="!email || !password"
-      >Iniciar sesión</ion-button
-    >
-    <ion-label>¿Olvidaste tu contraseña?</ion-label>
-  </div>
+    <ion-row>
+      <ion-col size="12">
+        <div class="login-form">
+          <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input type="email" [(ngModel)]="email"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Password</ion-label>
+            <ion-input type="password" [(ngModel)]="password"></ion-input>
+          </ion-item>
+
+          <ion-button expand="full" (click)="login()" color="primary" [disabled]="!email || !password">
+            Iniciar sesión
+          </ion-button>
+          <ion-label>¿Olvidaste tu contraseña?</ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
-
-
-
-<ion-modal id="example-modal" #modal trigger="open-custom-dialog">
-  <ng-template>
-    <div class="wrapper">
-      <ion-text color="primary">
-        <h1 style="text-align: center">Aviso</h1>
-        <p style="margin-left: 2%">Email o Contraseña incorrectos</p>
-      </ion-text>
-    </div>
-  </ng-template>
-</ion-modal>
-<!-- <ion-button expand="full" (click)="login()" color="primary" style="margin-top: 190%; position:fixed; width: 100%;"
->Crear cuenta nueva</ion-button
-> -->

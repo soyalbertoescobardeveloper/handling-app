@@ -1,62 +1,21 @@
 .login-background {
-    background: url('../../assets/icon/logo-sae.png') no-repeat center center fixed;
-    background-size: cover;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    color: white;
-  }
-  .background-image {
-    width: 57%;
-    height: 15%;
-    display: block;
-    margin: auto;
-    margin-top: 2%;
-  }
-  .login-form {
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    width: 90%;
-    transform: translate(-50%, -50%);
-  }
+  background: url('../../assets/icon/logo-sae.png') no-repeat center center fixed;
+  background-size: cover;
+}
 
-  ion-item {
-    --ion-label-color: white;
-    --ion-input-color: white;
-  }
-  
-  ion-modal#example-modal {
-    --width: fit-content;
-    --min-width: 250px;
-    --height: fit-content;
-    --border-radius: 6px;
-    --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
-  }
-  
-  ion-modal#example-modal h1 {
-    margin: 20px 20px 10px 20px;
-  }
-  
-  ion-modal#example-modal ion-icon {
-    margin-right: 6px;
-  
-    width: 48px;
-    height: 48px;
-  
-    padding: 4px 0;
-  
-    color: #aaaaaa;
-  }
-  
-  ion-modal#example-modal .wrapper {
-    margin-bottom: 10px;
-  }
+.background-image {
+  width: 80%;
+  max-width: 250px;
+  margin-top: 2%;
+}
 
+.login-form {
+  padding: 20px;
+  text-align: center;
+}
 
-  
+ion-item {
+  --ion-label-color: white;
+  --ion-input-color: white;
+  --background: transparent; 
+}

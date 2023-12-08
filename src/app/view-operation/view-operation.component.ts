@@ -119,6 +119,7 @@ export class ViewOperationComponent implements OnInit {
   loading!: HTMLIonLoadingElement;
   https: any;
   invoices: any[] = [];
+  idUrl: any;
 
   currentInvoice: Invoice = {
     name: '',
@@ -226,6 +227,7 @@ export class ViewOperationComponent implements OnInit {
 
   async ngOnInit() {
     const id = this.activatedRoute.snapshot.paramMap.get('id') as string;
+    this.idUrl = id;
     const token = await this.storage.get('access_token');
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
@@ -520,7 +522,6 @@ export class ViewOperationComponent implements OnInit {
       formData.append('amount', this.currentInvoice.amount.toString());
 
       if (this.currentInvoice.file) {
-        // If the file is a data URL, resize it before appending to formData
         const compressedDataUrl = await this.resizeImage(
           this.currentInvoice.file
         );
@@ -534,7 +535,6 @@ export class ViewOperationComponent implements OnInit {
         Authorization: `Bearer ${token}`,
       });
 
-      // Assuming you have a different API endpoint for invoices
       this.http
         .post<any>(this.appUrl + 'api/invoice/' + id, formData, { headers })
         .subscribe(
@@ -600,7 +600,6 @@ export class ViewOperationComponent implements OnInit {
           resolve(compressedDataUrl);
         } else {
           console.error('El contexto de dibujo es nulo');
-          // Si falla la redimensión, resolvemos con el valor original
           resolve(
             (fileOrDataURL instanceof File
               ? fileOrDataURL
@@ -652,7 +651,7 @@ export class ViewOperationComponent implements OnInit {
   }
 
   downloadManifest() {
-    const url = this.appUrl + 'api/send-manifest/1';
+    const url = this.appUrl + 'api/send-manifest/' + this.idUrl;
     this.http.get(url, { responseType: 'text' }).subscribe(
       (response) => {
         const parsedResponse = JSON.parse(response);

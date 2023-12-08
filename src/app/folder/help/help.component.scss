@@ -1,24 +1,23 @@
 ion-grid {
-    --ion-grid-padding: 20px;
+   --ion-grid-padding: 20px;
   
-    --ion-grid-padding-xs: 20px;
-    --ion-grid-padding-sm: 20px;
-    --ion-grid-padding-md: 20px;
-    --ion-grid-padding-lg: 20px;
-    --ion-grid-padding-xl: 20px;
+   --ion-grid-padding-xs: 20px;
+   --ion-grid-padding-sm: 20px;
+   --ion-grid-padding-md: 20px;
+   --ion-grid-padding-lg: 20px;
+   --ion-grid-padding-xl: 20px;
   
-    --ion-grid-column-padding: 30px;
+   --ion-grid-column-padding: 10px;
   
-    --ion-grid-column-padding-xs: 30px;
-    --ion-grid-column-padding-sm: 30px;
-    --ion-grid-column-padding-md: 30px;
-    --ion-grid-column-padding-lg: 30px;
-    --ion-grid-column-padding-xl: 30px;
+   --ion-grid-column-padding-xs: 10px;
+   --ion-grid-column-padding-sm: 30px;
+   --ion-grid-column-padding-md: 30px;
+   --ion-grid-column-padding-lg: 30px;
+   --ion-grid-column-padding-xl: 30px;
   }
   
   ion-col {
     background-color: var(--ion-background-color);
-    border: solid 1px #5b7790;
     text-align: center;
   }
 
@@ -29,6 +28,10 @@ ion-grid {
     border: 0px solid white; 
     display: block;  
     margin: 0 auto; 
+  }
+
+  .select-btn  {
+    align-items: center !important;
   }
   
   .ion-align-items-center {

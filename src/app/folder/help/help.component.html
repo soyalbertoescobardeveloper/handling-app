@@ -1,12 +1,23 @@
-<ion-card (click)="toggleLanguage()">
+<ion-card >
   <ion-card-header>
     <ion-card-title> {{ translationService.getTranslation('help') }}</ion-card-title>
   </ion-card-header>
   <ion-grid [fixed]="true">
     <ion-row class="ion-align-items-center">
       <ion-col size="6" class="ion-text-center">
-        <img class="profile-image" src="../../../assets/world.gif" alt="World SAE">
-        <div>{{ translationService.getTranslation('languaje') }} <br /> {{ translationService.getTranslation('languageselect') }}</div>
+        <ion-button id="present-alert">{{ translationService.getTranslation('languaje') }}  </ion-button>
+        <div class="select-btn">{{ translationService.getTranslation('languageselect') }}</div>
+        <ion-alert
+          trigger="present-alert"
+          header="{{ translationService.getTranslation('languaje') }}"
+          [buttons]="[
+          {
+            text: 'OK',
+            handler: changeLanguage
+          }
+        ]"
+        [inputs]="alertInputs"
+        ></ion-alert>
       </ion-col>
     </ion-row>
   </ion-grid>
