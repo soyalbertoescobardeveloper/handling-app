@@ -154,7 +154,49 @@
     <ion-card-content>
       <ion-list>
         <!-- Airworthiness CARD  -->
-        <ion-item>
+        <!-- generic-document.component.html -->
+      <app-generic-document
+      [documentPath]="message!.aircraft[0].airworthiness_card"
+      [label]="'Airworthiness Card Image'"
+      [buttonId]="'airworthiness_card'"
+      [buttonIcon]="'shield-checkmark-outline'"
+      [status]="message!.aircraft[0].airworthiness_card_status"
+      [comments]="message!.aircraft[0].airworthiness_card_comments"
+      [id]="message!.aircraft[0].aircraft_id"
+      [data]="message"
+      ></app-generic-document>
+      <!-- MEXICAN INSURANCE -->
+      <app-generic-document
+      [documentPath]="message!.aircraft[0].mexican_insurance"
+      [label]="'Mexican Insurance'"
+      [buttonId]="'mexican_insurance'"
+      [buttonIcon]="'shield-checkmark-outline'"
+      [status]="message!.aircraft[0].mexican_insurance_status"
+      [comments]="message!.aircraft[0].mexican_insurance_comments"
+      [id]="message!.aircraft[0].aircraft_id"
+      ></app-generic-document>
+      <!-- CERTIFICATE TAIL -->
+      <app-generic-document
+      [documentPath]="message!.aircraft[0].certificate_tail"
+      [label]="'Certificate tail'"
+      [buttonId]="'certificate_tail'"
+      [buttonIcon]="'shield-checkmark-outline'"
+      [status]="message!.aircraft[0].certificate_tail_status"
+      [comments]="message!.aircraft[0].certificate_tail_comments"
+      [id]="message!.aircraft[0].aircraft_id"
+      ></app-generic-document>
+      <!-- WORLDWIDE INSURANCE -->
+      <app-generic-document
+      [documentPath]="message!.aircraft[0].worldwide_insurance"
+      [label]="'Worldwide Insurance'"
+      [buttonId]="'worldwide_insurance'"
+      [buttonIcon]="'shield-checkmark-outline'"
+      [status]="message!.aircraft[0].worldwide_insurance_status"
+      [comments]="message!.aircraft[0].worldwide_insurance_comments"
+      [id]="message!.aircraft[0].aircraft_id"
+      [data]="message"
+      ></app-generic-document>
+        <!-- <ion-item>
           <ng-container
             *ngIf="message!.aircraft[0].airworthiness_card; else noImage"
           >
@@ -272,10 +314,10 @@
               </ion-row>
             </ion-grid>
           </ion-grid>
-        </ion-item>
+        </ion-item> -->
 
         <!-- MEXICAN INSURANCE -->
-        <ion-item>
+        <!-- <ion-item>
           <ng-container
             *ngIf="message!.aircraft[0].mexican_insurance; else noImage"
           >
@@ -395,9 +437,9 @@
               </ion-row>
             </ion-grid>
           </ion-grid>
-        </ion-item>
+        </ion-item> -->
         <!-- CERTIFICATE TAIL -->
-        <ion-item>
+        <!-- <ion-item>
           <ng-container
             *ngIf="message!.aircraft[0].certificate_tail; else noImage"
           >
@@ -517,9 +559,9 @@
               </ion-row>
             </ion-grid>
           </ion-grid>
-        </ion-item>
+        </ion-item> -->
         <!-- WORLDWIDE INSURANCE -->
-        <ion-item>
+        <!-- <ion-item>
           <ng-container
             *ngIf="message!.aircraft[0].worldwide_insurance; else noImage"
           >
@@ -643,7 +685,7 @@
               </ion-row>
             </ion-grid>
           </ion-grid>
-        </ion-item>
+        </ion-item> -->
         <!-- ENTRY PERMIT -->
         <ion-item *ngIf="!message!.piu">
           <ng-container *ngIf="message!.aircraft[0].entry_permit; else noImage">
@@ -782,7 +824,18 @@
             </ion-col>
           </ion-row>
         </ion-grid>
-        <ion-item>
+        <app-generic-document
+        [documentPath]="message!.fuel_release"
+        [label]="'Fuel release'"
+        [buttonId]="'fuel_release'"
+        [buttonIcon]="'shield-checkmark-outline'"
+        [status]="message!.fuel_release_status"
+        [comments]="message!.fuel_release_comments"
+        [id]="message!.operation_id"
+        [data]="message"
+        ></app-generic-document>
+
+        <!-- <ion-item>
           <ng-container *ngIf="message?.fuel_release; else noImage">
             <ion-thumbnail slot="start">
               <a [href]="appUrl + message?.fuel_release" download>
@@ -882,7 +935,8 @@
               </ion-row>
             </ion-grid>
           </ion-grid>
-        </ion-item>
+        </ion-item> -->
+
         <!-- PIU -->
         <ion-item *ngIf="!message!.aircraft[0].entry_permit">
           <div
