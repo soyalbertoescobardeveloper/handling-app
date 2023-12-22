@@ -29,21 +29,29 @@ const routes: Routes = [
   loadChildren: () => import('./detail-crew/detail-crew.module').then(m => m.DetailCrewModule) 
   },
   {
-    path: 'login',
-    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
-  },
-  {
     path: 'chat-list',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./chat-list/chat-list.module').then( m => m.ChatListPageModule)
   },
   {
     path: 'chat/:id',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./chat/chat.module').then(m => m.ChatPageModule)
     },
   {
     path: 'directory',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./directory/directory.module').then( m => m.DirectoryPageModule)
   },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'detail-generic-document',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./detail-generic-document/detail-generic-document.module').then( m => m.DetailGenericDocumentPageModule)
+  }
 ];
 
 @NgModule({
