@@ -15,7 +15,9 @@ import { ChatService } from './chat.service';
 export class NotificationHandlerService {
   private _storage: Storage | null = null;
   public notifications: any[] = [];
-  public notificationReceived = new EventEmitter<PushNotificationSchema | ActionPerformed>();
+  public notificationReceived = new EventEmitter<
+    PushNotificationSchema | ActionPerformed
+  >();
 
   constructor(
     private storage: Storage,
@@ -53,11 +55,10 @@ export class NotificationHandlerService {
   }
 
   private async initializePushNotifications() {
-
     PushNotifications.addListener(
       'pushNotificationReceived',
       async (notification: PushNotificationSchema) => {
-        this.notificationReceived.emit(notification);  // Emitir evento
+        this.notificationReceived.emit(notification); // Emitir evento
         const message = notification.data.message;
         const idUser = notification.data.idUser;
         if (!notification.title) {
