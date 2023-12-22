@@ -12,11 +12,18 @@
       </span>
     </h2>
     <h3> {{ translationService.getTranslation('flight') }} {{message.flightType}} </h3>
-    <p>
-      {{ translationService.getTranslation('etd') }}  {{message.etd}}
-    </p>
-    <p>
-      {{ translationService.getTranslation('eta') }}  {{message.eta}}
-    </p>
+    <ion-chip>
+      <ion-avatar>
+        <img alt="Airplane " src="assets/icon/airplane_departure.svg" />
+      </ion-avatar>
+      <ion-label>{{ translationService.getTranslation('etd') }}  {{message.etd}}</ion-label>
+    </ion-chip>
+
+    <ion-chip>
+      <ion-avatar>
+        <img alt="Airplane Arrival" src="assets/icon/airplane_arrival.svg" />
+      </ion-avatar>
+      <ion-label>{{ translationService.getTranslation('eta') }}  {{message.eta}}</ion-label>
+    </ion-chip>
   </ion-label>
 </ion-item>
