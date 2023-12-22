@@ -1,0 +1,46 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [text]="getBackButtonText()"
+      defaultHref="/"
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ detail.details.state.labels }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <img [src]="appUrl + detail.details.state.documentPaths" class="img" alt="Documento">
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-item>
+          <ion-label>{{ hasComment ? 'Rechazado' : 'Aprobar' }}</ion-label>
+          <ion-checkbox
+          *ngIf="!hasComment"
+          [checked]="detail.details.state.status === 1"
+          (ionChange)="onCheckChange($event,detail.details.state.buttonIds)">
+          </ion-checkbox>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row >
+      <ion-col size="12">
+        <ion-item *ngIf="!hasCheck">
+          <ion-label position="stacked">Comentarios</ion-label>
+          <ion-textarea (ionChange)="onCommentChange($event)"
+          [(ngModel)]="detail.details.state.comment"></ion-textarea>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-button expand="full" (click)="enviarDatos(detail.details.state.buttonIds)">{{ hasComment ? 'Rechazar' : 'Guardar' }}</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
