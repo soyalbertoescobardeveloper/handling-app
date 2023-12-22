@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment';
 import { Storage } from '@ionic/storage';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TranslationService } from '../services/translation.service';
+import { SharedCheckService } from '../shared-check.service';
 
 interface MessageData {
   operation_id: number;
@@ -113,7 +114,7 @@ export class ViewOperationComponent implements OnInit {
   message: MessageData | undefined;
   appUrl = environment.apiUrl;
   isChecked: boolean = false;
-  comments: string = '';
+  comments!: string;
   private activatedRoute = inject(ActivatedRoute);
   private platform = inject(Platform);
   loading!: HTMLIonLoadingElement;
@@ -136,7 +137,7 @@ export class ViewOperationComponent implements OnInit {
     private storage: Storage,
     private sanitizer: DomSanitizer,
     public translationService: TranslationService,
-    
+    private sharedCheckService: SharedCheckService
   ) {
     this.message = {
       operation_id: 1,
@@ -223,6 +224,19 @@ export class ViewOperationComponent implements OnInit {
       charter_permission_mxn_comments: '',
       diplomatic_card_status: 2,
     };
+    this.sharedCheckService.statusChange$.subscribe((data) => {
+      if (data.buttonId === 'airworthiness_card') {
+        this.message!.aircraft[0].airworthiness_card_status = data.value;
+      } else if (data.buttonId === 'mexican_insurance') {
+        this.message!.aircraft[0].mexican_insurance_status = data.value;
+      } else if (data.buttonId === 'certificate_tail') {
+        this.message!.aircraft[0].certificate_tail_status = data.value;
+      } else if (data.buttonId === 'worldwide_insurance') {
+        this.message!.aircraft[0].worldwide_insurance_status = data.value;
+      } else if (data.buttonId === 'fuel_release'){
+        this.message!.fuel_release_status = data.value;
+      }
+    });
   }
 
   async ngOnInit() {
@@ -260,8 +274,6 @@ export class ViewOperationComponent implements OnInit {
           console.error('Error al realizar la solicitud HTTP', error);
         }
       );
-
-  
   }
 
   getBackButtonText() {
@@ -400,7 +412,9 @@ export class ViewOperationComponent implements OnInit {
         ? getNestedProperty(this.message, mapping.path)
         : this.message;
       let value = source?.[key] || (key.includes('status') ? 0 : '');
-      formData.append(key, value.toString());
+      formData.append(key, '2');
+      console.log(2);
+      console.log(this.message);
     };
 
     if (mapping) {
@@ -449,53 +463,6 @@ export class ViewOperationComponent implements OnInit {
     }
   }
 
-  // async sendInvoice(type: string) {
-  //   this.loading = await this.loadingController.create({
-  //     cssClass: 'custom-spinner',
-  //     spinner: null,
-  //     translucent: true,
-  //     backdropDismiss: false,
-  //   });
-  //   await this.loading.present();
-  //   if (type === 'invoice') {
-  //     const formData: FormData = new FormData();
-  //     formData.append('name', this.currentInvoice.name);
-  //     formData.append('amount', this.currentInvoice.amount.toString());
-  //     if (this.currentInvoice.file) {
-  //       formData.append('invoice_path', this.currentInvoice.file);
-  //     }
-  //     const id = this.activatedRoute.snapshot.paramMap.get('id') as string;
-  //     this.http
-  //       .post<any>(this.appUrl + 'api/invoice/' + id, formData)
-  //       .subscribe(
-  //         (response) => {
-  //           if (
-  //             response &&
-  //             response.documents &&
-  //             response.documents.length > 0
-  //           ) {
-  //             const newInvoice = {
-  //               name: response.name,
-  //               amount: response.amount,
-  //               file: response.documents[0].path,
-  //             };
-  //             this.invoices.push(newInvoice);
-  //           }
-  //           this.currentInvoice = {
-  //             name: '',
-  //             amount: '',
-  //             file: null,
-  //           };
-  //           this.loading.dismiss();
-  //           this.modalCtrl.dismiss();
-  //         },
-  //         (error) => {
-  //           this.loading.dismiss();
-  //           console.error('Error al enviar la factura:', error);
-  //         }
-  //       );
-  //   }
-  // }
   dataURLtoBlob(dataURL: string) {
     const byteString = atob(dataURL.split(',')[1]);
     const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
