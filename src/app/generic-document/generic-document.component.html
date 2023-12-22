@@ -1,0 +1,31 @@
+<ion-item>
+  <ng-container *ngIf="documentPath; else noImage">
+    <ion-thumbnail slot="start">
+      <a (click)="openDetailDocument(documentPath,label,buttonId,buttonIcon,status,comments,id,data)">
+        <ion-img *ngIf="!isPdf(documentPath)" [src]="appUrl + documentPath" alt="SAE"></ion-img>
+        <ion-icon *ngIf="isPdf(documentPath)" name="cloud-download-outline" class="large-icon"></ion-icon>
+      </a>
+    </ion-thumbnail>
+  </ng-container>
+
+  <ng-template #noImage>
+    <ion-thumbnail slot="start">
+      <ion-img src="https://www.apricotmaps.com/resources/Pictures/docs/no-image.png" alt="Imagen predeterminada"></ion-img>
+    </ion-thumbnail>
+  </ng-template>
+
+  <ion-grid (click)="openDetailDocument(documentPath,label,buttonId,buttonIcon,status,comments,id,data)">
+    <ion-row>
+      <ion-col size="12">
+        <ion-label>{{ label }}</ion-label>
+      </ion-col>
+    </ion-row>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" [ngClass]="getStatusClass(status)">
+          <ion-label>{{ getStatusLabel(status) }}</ion-label>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-grid>
+</ion-item>
